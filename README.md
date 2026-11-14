@@ -19,8 +19,8 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 
 ### Phase 3 — Give models useful knowledge
 
-6. **RAG fundamentals** — [Study RAG](study-materials/rag/README.md). Load documents, chunk, embed, retrieve, cite, and evaluate grounded answers.
-7. **Vector databases** — [Study vector databases](study-materials/vector-databases/README.md). Understand similarity, indexes, metadata filters, persistence, and retrieval quality.
+6. **Vector databases and semantic search** — [Study vector databases](study-materials/vector-databases/README.md). Understand embeddings, similarity, indexes, metadata filters, and persistence.
+7. **RAG fundamentals** — [Study RAG](study-materials/rag/README.md). Apply document loading, chunking, embeddings, retrieval, citations, and grounded answer evaluation.
 
 ### Phase 4 — Build controlled agents and integrations
 
@@ -100,8 +100,8 @@ Build a **Developer Knowledge Assistant** in small increments:
 | Python | [14-day Python course](study-materials/python/README.md) | Python fundamentals to agent prototype |
 | GenAI | [GenAI](study-materials/genai/README.md) | LLM concepts, inference, APIs |
 | Prompt engineering | [Prompts](study-materials/prompt-engineering/README.md) | Instructions, schemas, robustness |
-| RAG | [RAG](study-materials/rag/README.md) | Document retrieval and grounded answers |
 | Vector databases | [Vector DB](study-materials/vector-databases/README.md) | Embedding storage and search |
+| RAG | [RAG](study-materials/rag/README.md) | Document retrieval and grounded answers |
 | Agentic AI | [Agents](study-materials/agentic-ai/README.md) | Tools, state, orchestration and safety |
 | MCP | [MCP](study-materials/mcp/README.md) | Standard tool/resource integration |
 | LLM evaluation | [Evaluation](study-materials/llm-evaluation/README.md) | Quality, traces, metrics, regression tests |
