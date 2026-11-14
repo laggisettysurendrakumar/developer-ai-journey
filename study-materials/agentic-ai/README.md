@@ -1,116 +1,135 @@
-# Agentic AI Engineering
+# Agentic AI Engineering — Beginner to Advanced Course
 
-I created this learning track to understand the topic from the beginning and apply it to real GenAI and agentic AI applications. Each concept is explained in plain language, followed by code, why it is useful, a developer use case, and an exercise.
+I created this course to understand how AI agents work from the fundamentals through designing, securing, evaluating, and deploying an agentic application. The goal is not to memorise framework APIs. I want to understand the control loop, write and validate tools, understand what the SDK does, and build an agent that behaves safely.
 
-## Who should use this guide
-Developers who have built a basic model API call and understand functions, validation, async code, and tool calling.
+> **Target learner:** A Python developer who is new to Agentic AI. The course explains concepts in plain language, then builds from normal Python functions to a working agent and a production-minded capstone.
 
-## Before starting
-Complete the Python 14-day course, GenAI fundamentals, prompt engineering, and basic RAG. Build a tool-calling demo before using a framework.
+## Why this course has multiple lessons
 
-## Learning sequence
-1. Understand the difference between a chat completion, workflow, and agent.
-2. Learn the agent loop: observe, decide, call a tool, inspect result, stop.
-3. Define tools with narrow schemas and validate arguments.
-4. Manage run state, conversation history, memory, and persistence.
-5. Use planning only when the task needs decomposition; prefer deterministic workflows for fixed processes.
-6. Learn handoffs, specialist agents, routing, and multi-agent trade-offs.
-7. Add human approvals for side effects and high-impact actions.
-8. Trace agent runs and evaluate tool selection, step count, correctness, latency, and cost.
-9. Deploy with identity, secrets, rate limits, and failure recovery.
+The earlier overview was not enough to learn the subject. Agentic AI combines normal software engineering, model behaviour, tool contracts, state, orchestration, security, evaluation, and operations. Each of those needs examples and practice. This course separates them so I can understand one concept before combining it with the next.
+
+## Prerequisites
+
+Before starting, I should be comfortable with Python variables, conditions, loops, functions, classes, exceptions, modules, virtual environments, dictionaries, lists, JSON, basic type hints, REST APIs, and basic async/await.
+
+Use the [14-day Python course](../python/README.md) as the foundation. Complete at least Days 1–10 before this course. Read the GenAI and prompt engineering introductions as well.
+
+## How to study
+
+- Study one lesson at a time. Expect 1.5–3 hours per lesson depending on how much code I write.
+- Type the examples manually and run them in a virtual environment.
+- Explain what each function, parameter, return value, and validation rule does.
+- Change an input and predict the output before running it.
+- Try invalid input and inspect the error.
+- Finish the exercise and self-check before moving forward.
+- Use synthetic data and local sample tools. Do not connect practice code to company systems or production credentials.
+- Keep API usage optional until the model tool-calling and SDK lessons. Real model requests may cost money.
+
+## Course roadmap — 14 lessons
+
+| Lesson | Topic | Outcome |
+|---|---|---|
+| 01 | [What is Agentic AI?](01-agentic-ai-from-zero.md) | Explain agents, workflows, and agent use cases |
+| 02 | [Python building blocks](02-python-foundations-for-agents.md) | Understand the Python features agents use |
+| 03 | [Agent loop without a framework](03-agent-loop-without-framework.md) | Build a bounded mock loop |
+| 04 | [Tools, schemas, and permissions](04-tools-schemas-validation.md) | Design safe, validated tools |
+| 05 | [Model tool calling](05-model-tool-calling.md) | Understand the LLM/tool round-trip |
+| 06 | [State, history, and memory](06-state-conversation-memory.md) | Manage run state and data retention |
+| 07 | [Planning and workflows](07-planning-reasoning-workflows.md) | Create and validate bounded plans |
+| 08 | [Routing and multi-agent patterns](08-agent-patterns-routing-handoffs.md) | Understand routers, handoffs, and parallelism |
+| 09 | [Guardrails and human approval](09-human-approval-guardrails-security.md) | Protect tools and side effects |
+| 10 | [Reliability and recovery](10-reliability-retries-idempotency.md) | Handle timeouts, retries, and duplicate work |
+| 11 | [Evaluation and tracing](11-evaluation-tracing-observability.md) | Measure quality, tool use, latency, and cost |
+| 12 | [OpenAI Agents SDK](12-openai-agents-sdk.md) | Build a real model-driven agent |
+| 13 | [Production architecture](13-production-agent-architecture.md) | Design a deployable agent service |
+| 14 | [Developer Support Agent capstone](14-capstone-developer-support-agent.md) | Combine the course into a working project |
+
+## Understand the learning progression
+
+```text
+Python foundations
+       |
+       v
+What is an agent?
+       |
+       v
+Manual agent loop (mock model)
+       |
+       v
+Validated tools and model tool calling
+       |
+       v
+State, memory, planning, routing
+       |
+       v
+Security, approvals, reliability
+       |
+       v
+Evaluation and tracing
+       |
+       v
+Agent framework (OpenAI Agents SDK)
+       |
+       v
+Production architecture
+       |
+       v
+Developer Support Agent capstone
+```
+
+The mock loop comes before the framework intentionally. If I understand the manual loop, I can reason about what a framework is doing and debug it more effectively.
 
 ## Important concepts in plain language
-### Workflow
-A workflow is a predefined sequence or graph of steps. It is often better than an agent when the required path is known and predictable.
 
-### Agent
-An agent uses a model to decide among permitted next steps. The application still owns execution, permissions, limits, and safety.
+### An agent is an application pattern, not a magic model
 
-### Tool
-A tool is a function or service the agent can request. It should have a narrow purpose, validated input, and controlled output.
+An LLM can interpret a goal and propose a next step. The application decides which tools are available, checks arguments and permissions, executes functions, tracks state, and stops the run safely.
 
-### State and memory
-State is information needed during a run. Memory is information retained across runs. Persistent memory requires ownership, retention, privacy, and deletion policies.
+### Tool calling does not mean the model executes code
 
-### Handoff
-A handoff routes work to another specialised agent or component. It introduces coordination and debugging complexity.
+The model returns a request for a named tool and arguments. The application runtime validates the request and calls a normal Python function or service. The model receives the result in a later turn.
 
-### Human-in-the-loop
-A person reviews or approves an action before it happens. Use it when an action is consequential or difficult to reverse.
+### Workflow versus agent
 
-## Practical examples
-Example — a bounded agent loop without a model
-This demo shows application-controlled steps. It is deterministic and intentionally does not pretend that a normal Python function is an intelligent model.
-```python
-def run_demo_agent(goal: str, max_steps: int = 3) -> str:
-    if not goal.strip():
-        raise ValueError("Goal is required")
-    if not 1 <= max_steps <= 5:
-        raise ValueError("Step limit must be between 1 and 5")
+A workflow follows steps chosen by the developer. An agent can choose among permitted next steps at runtime. Use workflows when the path is known and predictable; use agents when model-driven decisions add real value. A hybrid design is common.
 
-    for step in range(max_steps):
-        print(f"Working on step {step + 1}")
-        if step == 1:
-            return f"Completed the demo task: {goal}"
+### State versus memory
 
-    raise RuntimeError("Step limit reached")
+Run state helps the current task progress. Conversation history provides context from earlier turns. Long-term memory persists selected information across runs and needs explicit ownership, consent, retention, and deletion rules.
 
-print(run_demo_agent("Explain a deployment error"))
-```
-Use case: make the maximum-step rule explicit before adding a real model that may request multiple tools.
-Example — require approval before a write action
-The model may suggest an action, but trusted code determines whether it is allowed and whether a human must approve it.
-```python
-def approve_action(action: str, approved_by_user: bool) -> None:
-    if action in {"send_email", "update_record", "deploy"}:
-        if not approved_by_user:
-            raise PermissionError("Human approval is required")
+### More agents do not automatically mean a better system
 
-approve_action("send_email", approved_by_user=False)
-```
-Use case: an assistant can draft an email automatically but cannot send it until the user approves.
+A single agent with a few clear tools is easier to understand and evaluate. Add specialist agents only when there is a clear separation of responsibilities or permissions that justifies the extra latency, cost, and debugging effort.
 
-## Mini-project
-Build a Developer Support Agent with read-only tools: search a local knowledge base, calculate simple values, and retrieve a synthetic service status. Include explicit tool schemas, authorisation stubs, approval gates for write tools, bounded steps, tracing, unit tests, and an evaluation set.
+## Practical capstone
 
-## Safety, quality, and cost
-- Never expose unrestricted shell, SQL, cloud, or production credentials to a model.
-- Treat prompts, retrieved documents, web content, and tool results as untrusted input.
-- Enforce authentication and authorisation in trusted code, not just system prompts.
-- Bound steps, time, tokens, concurrency, retries, and tool output size.
-- Require human approval for consequential or irreversible actions.
-- Log traces without secrets and evaluate failures before expanding tool access.
+The final project is a **Developer Support Agent**. It accepts a question, validates it, searches sample Linux/Python documentation, keeps source IDs, uses bounded read-only tools, admits when evidence is missing, records trace-friendly metadata, runs tests/evaluations, and is packaged with Docker as a later exercise.
 
-## Suggested practice routine
-1. Read one section and explain the idea in your own words.
-2. Type the example instead of copying it blindly.
-3. Change one input and predict the output before running it.
-4. Test an invalid input and inspect the error.
-5. Complete the exercise and record what you learned.
+## What advanced means in this course
 
-## References
-- OpenAI Agents SDK: https://openai.github.io/openai-agents-python/
+By the end I should be able to design and explain manual agent orchestration, model-driven tool calls, typed tool contracts, validation, authorisation, state, conversation history, memory trade-offs, planning, workflows, routing, handoffs, parallel tools, prompt injection risks, least privilege, approvals, audit, timeouts, retries, idempotency, evaluation, tracing, latency, cost, and maintainable deployment architecture.
+
+This is a strong foundation, not a claim of mastery. Professional proficiency comes from building more than one application, operating it, and learning from failures.
+
+## Security rules to remember throughout
+
+- A system prompt is not an authorisation system.
+- Never give a model unrestricted shell, SQL, cloud, or production credentials.
+- Validate model-generated arguments in trusted code.
+- Check user identity and resource permissions on every operation.
+- Treat user prompts, retrieved documents, and tool outputs as untrusted.
+- Require a human to approve consequential or irreversible actions.
+- Bound steps, time, retries, concurrency, output size, tokens, and spend.
+- Avoid logging secrets and sensitive content.
+- Use tests and evaluation before enabling additional tools.
+
+## Official references
+
+- OpenAI Agents SDK for Python: https://openai.github.io/openai-agents-python/
+- OpenAI SDK quickstart: https://openai.github.io/openai-agents-python/quickstart/
 - OpenAI agent guide: https://platform.openai.com/docs/guides/agents
-- OWASP LLM Top 10: https://genai.owasp.org/llm-top-10/
+- Function calling: https://platform.openai.com/docs/guides/function-calling
+- Model Context Protocol: https://modelcontextprotocol.io/docs/
+- OWASP Top 10 for LLM Applications: https://genai.owasp.org/llm-top-10/
 
-Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
-
-## Self-check
-
-1. When is a deterministic workflow better than an agent?
-2. What happens in an agent's tool-use loop?
-3. Why must the application validate tool arguments?
-4. What is the difference between run state and persistent memory?
-5. When should an action require human approval?
-6. Why should multi-agent designs be justified rather than used by default?
-
-## Practice checklist
-
-- [ ] I can build a bounded tool-using loop.
-- [ ] I can expose only an allowlist of narrow tools.
-- [ ] I can validate arguments and check permissions in trusted code.
-- [ ] I can stop runaway loops with step, time, and cost limits.
-- [ ] I can trace and evaluate the agent's tool choices and final results.
-
-**Next:** Learn MCP for standardised integration and evaluation for measurable reliability.
-
+Framework and provider APIs change. Before running a real model call, check the installed SDK's official documentation, supported models, pricing, data handling, and usage limits.
