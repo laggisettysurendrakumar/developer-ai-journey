@@ -99,6 +99,17 @@ Create a plan for investigating a fictional `502 Bad Gateway` error:
 4. Mark any step that would change a system as requiring approval.
 5. Write a validator that rejects more than four steps and unknown tool names.
 
+
+## Practice exercise
+
+Create a plan for investigating a fictional `502 Bad Gateway` error:
+1. Keep the plan read-only.
+2. Use no more than four steps.
+3. Identify which evidence each step should return.
+4. Mark any step that would change a system as requiring approval.
+5. Write a validator that rejects more than four steps and unknown tool names.
+
+
 ## Self-check
 
 1. Why should a plan be checked before execution?
