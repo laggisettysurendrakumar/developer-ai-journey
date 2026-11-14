@@ -118,6 +118,17 @@ Design three tools for a Developer Support Agent:
 
 For each, write a Pydantic argument model, allowed value constraints, output shape, possible errors, and a test proving an unauthorised request is rejected.
 
+
+## Practice exercise
+
+Design three tools for a Developer Support Agent:
+1. `search_docs(query, category)`.
+2. `get_service_status(service_name)`.
+3. `calculate_percentage(value, total)`.
+
+For each, write a Pydantic argument model, allowed value constraints, output shape, possible errors, and a test proving an unauthorised request is rejected.
+
+
 ## Self-check
 
 1. What makes a tool description useful?
