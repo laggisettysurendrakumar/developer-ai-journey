@@ -97,3 +97,23 @@ Create a prompt test pack with at least 20 synthetic examples: normal questions,
 - Pydantic: https://docs.pydantic.dev/
 
 Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+
+## Self-check
+
+1. What information makes a prompt clear and testable?
+2. When is few-shot prompting useful?
+3. Why is adding more context not always better?
+4. Why is a prompt not an access-control or security boundary?
+5. How can structured outputs be validated?
+6. How do I know whether a prompt change improved the application?
+
+## Practice checklist
+
+- [ ] I can write prompts with an explicit task, context, constraints, and output contract.
+- [ ] I can separate trusted application instructions from untrusted user/document text.
+- [ ] I can validate structured model output.
+- [ ] I have tested missing-context and prompt-injection cases.
+- [ ] I have saved a baseline evaluation set and can compare prompt versions.
+
+**Next:** Learn vector search and RAG so prompts can use retrieved evidence.
+
