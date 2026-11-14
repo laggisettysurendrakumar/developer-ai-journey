@@ -2067,3 +2067,35 @@ I will keep improving this guide as I encounter new issues and learn the command
 ---
 
 *Notes: Command availability and options can vary between Ubuntu, Debian, RHEL, and other distributions. Before using an unfamiliar option, I will check the local manual with `man command-name` or use `command-name --help`. I will practise commands that change system state only in a disposable lab or through an approved change.*
+
+## How I check my understanding each day
+
+At the end of each day, I will close the notes and try to explain the topic in my own words. I will then repeat the commands in the lab without copying them. If I cannot explain the output, I will revisit the section rather than rushing to the next day.
+
+### Quick self-assessment
+
+| Day | I should be able to explain or demonstrate |
+|---|---|
+| 1 | Identify the host and user, move between directories, and read a log file |
+| 2 | Search for text, copy and compare files, and understand paths and file metadata |
+| 3 | Explain owner/group/other permissions, directory execute permission, and safe use of `sudo` |
+| 4 | Find a process, inspect a service, identify a listening port, and read service logs |
+| 5 | Explain DNS, routing, TCP, TLS, and HTTP as separate troubleshooting layers |
+| 6 | Compare filesystem space with inode usage and inspect CPU and memory safely |
+| 7 | Investigate a sample incident, separate facts from hypotheses, and write a handover |
+
+### Common beginner errors
+
+| Message or symptom | What it usually means | Safe first check |
+|---|---|---|
+| `command not found` | The command may not be installed or may not be in `PATH` | `command -v command-name` |
+| `No such file or directory` | The path may be wrong, misspelled, or unavailable | `pwd` and `ls` the parent directory |
+| `Permission denied` | The current user lacks a required permission, or an access policy blocks the operation | `whoami`, `id`, `ls -l`, and `namei -l <path>` |
+| `Connection refused` | The destination responded but no service accepted the connection, or it actively rejected it | Confirm host/port and inspect service state with approval |
+| Command returns no output | Some successful commands are intentionally quiet, or the search found no match | Check the command's exit status with `echo $?` immediately after it |
+
+### Output-reading habit
+
+Do not expect every Linux distribution to print identical output. Versions, permissions, usernames, timestamps, and installed tools differ. Focus on the meaning of each field. When an example does not match, check the command's manual page with `man <command>` or use `<command> --help` where supported.
+
+Before moving to the next day, complete the matching lab in `04-hands-on-labs.md` and record one practical use case in my own words.
