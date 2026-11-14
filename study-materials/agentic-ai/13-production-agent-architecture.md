@@ -118,6 +118,23 @@ Create a production-style design for the Developer Support Agent:
 
 Do not connect the lab to production credentials or customer data.
 
+
+## Practice exercise
+
+Create a production-style design for the Developer Support Agent:
+1. FastAPI endpoint protected by authentication (mocked in the learning project).
+2. Agent service with a maximum step count.
+3. Read-only search/status tools.
+4. Persistent run record and owner.
+5. Approval workflow for any hypothetical write tool.
+6. Structured logs and traces.
+7. Evaluation pipeline.
+8. Docker deployment.
+9. Architecture diagram and threat model.
+
+Do not connect the lab to production credentials or customer data.
+
+
 ## Self-check
 
 1. Why should authentication happen before the agent runner?
