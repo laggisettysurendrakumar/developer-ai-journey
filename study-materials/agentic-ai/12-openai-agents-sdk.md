@@ -178,6 +178,19 @@ Build a small Python tutor agent with two read-only tools: `search_python_notes`
 
 Record which tool was called and why. Use an evaluation dataset rather than checking only one response.
 
+
+## Practice exercise
+
+Build a small Python tutor agent with two read-only tools: `search_python_notes` and `calculate_sum`. Test:
+1. A question answered without a tool.
+2. A question answered using a tool.
+3. Blank tool input.
+4. Invalid numeric input.
+5. An unknown question with insufficient knowledge.
+
+Record which tool was called and why. Use an evaluation dataset rather than checking only one response.
+
+
 ## Self-check
 
 1. What does `Agent` configure?
