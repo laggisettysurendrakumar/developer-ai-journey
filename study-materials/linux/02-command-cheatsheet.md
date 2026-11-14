@@ -296,3 +296,114 @@ Ask yourself:
 5. Have I captured the evidence needed before the change?
 6. Can I target one file/process/service instead of using a broad recursive action?
 7. How will I verify recovery and communicate the result?
+
+## Beginner explanations: what the common commands mean
+
+This section explains the commands I am most likely to meet while learning. The examples use sample paths and files. Run commands that change data only inside a disposable lab.
+
+### Finding my way around
+
+| Command | Plain-English meaning | Why I use it | Example |
+|---|---|---|---|
+| `pwd` | Print working directory | Confirm which folder I am in before acting | `pwd` |
+| `ls` | List directory contents | See which files and folders exist | `ls -lah` |
+| `cd` | Change directory | Move to the folder I need to inspect | `cd /var/log` |
+| `mkdir` | Make a directory | Create a place for lab files | `mkdir practice` |
+| `touch` | Create an empty file, or update timestamps | Make a sample file for exercises | `touch notes.txt` |
+
+### Reading and searching files
+
+| Command | Plain-English meaning | Why I use it | Example |
+|---|---|---|---|
+| `cat` | Print file contents | Read a short text file | `cat notes.txt` |
+| `less` | Open a scrollable text viewer | Read large logs without flooding the terminal | `less app.log` |
+| `head` | Show the beginning of a file | Check the first few lines | `head -n 20 app.log` |
+| `tail` | Show the end of a file | Check the latest log entries | `tail -n 50 app.log` |
+| `grep` | Find lines matching text or a pattern | Locate errors or request IDs in logs | `grep -n 'ERROR' app.log` |
+| `find` | Search directory trees for files | Locate a file by name or other properties | `find . -name '*.log' -print` |
+| `wc` | Count lines, words, or bytes | Count matching log lines | `grep 'ERROR' app.log \| wc -l` |
+| `sort` | Sort lines | Put values into order before comparing | `sort names.txt` |
+
+### Understanding permissions
+
+| Command | Plain-English meaning | Why I use it | Example |
+|---|---|---|---|
+| `whoami` | Show the current username | Confirm which account runs a command | `whoami` |
+| `id` | Show user and group IDs | Understand group-based access | `id` |
+| `chmod` | Change permission bits | Grant only the required file access | `chmod 640 sample.txt` (lab only) |
+| `chown` | Change file owner/group | Correct ownership through an approved process | `chown user:group sample.txt` (lab only) |
+| `sudo` | Run an allowed command with elevated privileges | Perform an authorised admin task | `sudo command` (only when approved) |
+
+Remember: on a directory, `r` allows listing names, `w` allows changing directory entries, and `x` allows traversing/searching the directory. File permissions and directory permissions work together.
+
+### Processes, services, and logs
+
+| Command | Plain-English meaning | Why I use it | Example |
+|---|---|---|---|
+| `ps` | Show process information | See programs currently running | `ps -ef` |
+| `pgrep` | Find process IDs by name/pattern | Identify an application process | `pgrep -af dotnet` |
+| `top` | Live view of processes and resource use | Spot high CPU or memory use | `top` |
+| `systemctl status` | Show a systemd service's state | Check whether a service is active or failed | `systemctl status <service>` |
+| `journalctl` | Read systemd journal logs | Find service messages around an incident | `journalctl -u <service> --since '30 minutes ago'` |
+| `ss` | Show socket/network endpoint information | Check whether a process is listening on a port | `ss -lnt` |
+
+### Networking and system health
+
+| Command | Plain-English meaning | Why I use it | Example |
+|---|---|---|---|
+| `getent hosts` | Ask the system name service to resolve a hostname | Check name resolution using the host's configured resolver path | `getent hosts example.com` |
+| `curl` | Make an HTTP request and show the response | Test an endpoint from the server's perspective | `curl -I https://example.com` |
+| `ip addr` | Show network interface addresses | Check which IP addresses are configured | `ip -br addr` |
+| `df` | Show filesystem space usage | Check whether a filesystem is full | `df -hT` |
+| `du` | Estimate file/directory space usage | Find which directory uses space | `du -sh <path>` |
+| `free` | Show memory usage | Check available and used memory | `free -h` |
+| `uptime` | Show uptime and load averages | Get a quick view of host runtime and load | `uptime` |
+
+## Understand command syntax and options
+
+A common command shape is:
+
+```bash
+command [options] [arguments]
+```
+
+For example:
+
+```bash
+ls -lah /var/log
+```
+
+- `ls` is the command.
+- `-l`, `-a`, and `-h` are options that change the display.
+- `/var/log` is the argument: the location to list.
+
+Options are not universal. Read `man ls` or `ls --help` rather than assuming an option means the same thing for every command.
+
+## Understand the output before taking action
+
+After running a command, ask:
+1. Which part of the output answers my question?
+2. Does the output refer to the file, process, service, or host I intended?
+3. Is the output complete, or might permissions hide information?
+4. Is the command read-only, or did it change something?
+5. What is the next smallest, safest check?
+
+Some commands print nothing when they succeed. To inspect the exit status, run `echo $?` immediately afterwards: `0` commonly means success, while a non-zero value indicates an error or a condition that needs interpretation.
+
+## Common errors and first checks
+
+| Error | Possible reason | First check |
+|---|---|---|
+| `command not found` | Tool is missing or not in `PATH` | `command -v <command>` |
+| `No such file or directory` | Wrong path or missing file | `pwd` and `ls` the parent folder |
+| `Permission denied` | User lacks file/directory permission | `whoami`, `id`, `ls -l`, `namei -l <path>` |
+| `Operation not permitted` | Kernel, ownership, capability, or security policy blocks the action | Stop and check the approved access model; do not try random privilege changes |
+
+## Safe practice sequence
+
+1. Practise navigation and file-reading commands first.
+2. Create sample files under your home directory and practise searching and comparing them.
+3. Learn to read permission output before practising `chmod` in a disposable lab.
+4. Inspect processes and ports before learning any command that stops them.
+5. Practise networking checks against a permitted test endpoint.
+6. Treat commands that change accounts, permissions, services, firewall rules, packages, or data as controlled actions—not routine experiments.
