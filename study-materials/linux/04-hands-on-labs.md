@@ -219,3 +219,89 @@ Example — `grep`:
 - Avoid destructive commands such as recursive deletion, disk-filling commands, or broad permission changes. Use the safe lab exercises in this repository instead.
 - Never test against production systems or public systems without explicit authorization.
 - Free plans, availability, and platform features can change. Check each website's current terms and limits.
+
+## How to check lab results
+
+Use these checks to decide whether an exercise worked. Exact timestamps, usernames, permissions, and output formatting vary by Linux distribution.
+
+### Lab 1 — Files and logs: expected observations
+
+- `file app.log` should identify a text file.
+- `stat app.log` should show metadata such as size, owner, permissions, and modification time.
+- `grep 'ERROR' app.log` should display the two sample error lines.
+- `grep -c 'ERROR' app.log` should print `2` for the sample log.
+- `jq -r '.service, .enabled' app.json` should print `orders` and `true` if `jq` is installed.
+- `tar -tf <archive>` should list paths stored in the archive without extracting them.
+
+**Hint:** If `jq: command not found` appears, the tool is not installed in that environment. Do not try to install it on a managed or production host; use another lab environment or inspect the JSON as text.
+
+### Lab 2 — Permissions and ACLs: expected observations
+
+- `ls -ld shared` should show directory permissions equivalent to `rwxr-x---` for mode `750`.
+- `ls -l sample.txt` should show file permissions equivalent to `rw-r-----` for mode `640`.
+- `namei -l` should help you inspect every directory in the path.
+- A user needs execute/search permission on each parent directory to reach a file. Read permission on the file alone is not enough.
+
+**Hint:** The exact owner and group names depend on the account that created the files. Do not change the example to `777` to make access easier.
+
+### Lab 3 — Users and groups: expected observations
+
+- `id supportuser` should show the user's numeric ID and group memberships.
+- `getent group supportlab` should show the group and its listed supplementary members (format can vary).
+- A new login session may be needed before a user's session reflects new supplementary group membership.
+
+**Hint:** This exercise needs administrator rights and a disposable VM. Skip it if you do not control the environment.
+
+### Lab 4 — Process and service investigation: expected observations
+
+- `pgrep -af 'http.server'` should show the Python HTTP server process while it is running.
+- `ss -lntup` should show a listening socket on port `8088`, commonly bound to `127.0.0.1`.
+- `curl -I http://127.0.0.1:8088/` should return an HTTP response while the server is running.
+- After Ctrl+C in the server terminal, the process should stop and the listening socket should disappear.
+
+**Hint:** Keep the server terminal open and run the inspection commands in a second terminal. If Python is unavailable, use a different approved lab scenario.
+
+### Lab 5 — Networking layers: expected observations
+
+- `getent hosts example.com` may return one or more IP addresses if DNS resolution works.
+- `nc -vz example.com 443` should report a successful TCP connection when outbound access is permitted.
+- `curl -I https://example.com` should receive an HTTP response if DNS, TCP, TLS, and the remote web service are all reachable.
+
+**Hint:** A corporate network, firewall, proxy, or practice environment may block outbound requests. That does not automatically mean your Linux command is wrong. Record the exact failure layer.
+
+### Lab 6 — Disk and inode investigation: expected observations
+
+- `df -hT` reports filesystem capacity and usage in human-readable units.
+- `df -ih` reports inode capacity and usage. A filesystem can run out of inodes even when some byte capacity remains.
+- `du` estimates space used by visible directory contents; its result may differ from `df` because of deleted-but-open files, mount boundaries, permissions, and filesystem metadata.
+
+**Hint:** Do not create large files or deliberately exhaust disk space for this exercise.
+
+### Lab 7 — Mini incident report: self-check
+
+Your report is ready when it:
+- Identifies the affected environment, service, time, and user impact.
+- Separates facts from hypotheses.
+- Shows why each command was selected and what its output means.
+- Checks the request path in layers instead of assuming the host is the problem.
+- Identifies actions that need approval.
+- Names the next owner, next step, and recovery verification.
+
+## Lab reflection template
+
+After each lab, fill this in your notes:
+
+```text
+Lab completed:
+Environment used:
+Command I learned:
+What the command does:
+Why I used it:
+Important output:
+Error I encountered (if any):
+What I learned from the error:
+One real application-support use case:
+Safety check before using it on a real server:
+```
+
+Do not paste real company logs, secrets, hostnames, IP addresses, or customer data into public practice websites or public repository notes.
