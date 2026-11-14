@@ -57,6 +57,29 @@ developer-ai-journey/
 └── resources/
 ```
 
+
+## Suggested study pace
+
+This is a practical estimate, not a deadline. Plan for roughly 1–2 focused hours per day. Repeat a topic when the examples are not yet comfortable; AI engineering requires building and debugging, not only reading.
+
+| Topic | Suggested practice time |
+|---|---:|
+| Linux foundations | 7 days |
+| Python for AI development | 14 days |
+| GenAI fundamentals | 4 days |
+| Prompt engineering | 3 days |
+| Vector databases and semantic search | 4 days |
+| RAG | 5 days |
+| Agentic AI | 5 days |
+| MCP | 3 days |
+| LLM evaluation and observability | 4 days |
+| Docker | 4 days |
+| Kubernetes | 5 days |
+| Terraform | 4 days |
+| Azure for AI applications | 5 days |
+
+The complete first pass is about 67 study days. Allow additional time for project work, revision, cloud provisioning, and troubleshooting. You can postpone Kubernetes or multi-agent patterns until a project has a real need for them.
+
 ## Recommended capstone
 
 Build a **Developer Knowledge Assistant** in small increments:
