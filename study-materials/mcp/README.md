@@ -84,16 +84,16 @@ python -m venv .venv
 python -m pip install "mcp[cli]"
 ```
 
-Do not mix examples written for MCP SDK v1 with v2. Pin a reviewed version in your dependency file and follow the current SDK examples.
+Do not mix examples written for MCP SDK v1 with v2. Pin a reviewed version in your dependency file and follow the current SDK examples. The commands below use the current v2 CLI workflow.
 
 ## 6. Minimal local server example
 
 The following shows the current high-level Python SDK style. Keep the sample tool read-only and use synthetic data.
 
 ```python
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
-mcp = FastMCP("developer-knowledge")
+mcp = MCPServer("developer-knowledge")
 
 @mcp.tool()
 def search_docs(query: str) -> list[dict[str, str]]:
@@ -110,15 +110,19 @@ def search_docs(query: str) -> list[dict[str, str]]:
         if query.lower() in item["title"].lower()
     ]
 
-if __name__ == "__main__":
-    mcp.run()
+@mcp.resource("knowledge://welcome")
+def welcome_resource() -> str:
+    """Return a short description of the sample knowledge base."""
+    return "This learning server contains synthetic Linux and Python guide titles."
 ```
 
-**What it does:** Creates a server and exposes a function as a tool. The SDK handles protocol details.
+**What it does:** Creates an MCP server, exposes a function as a tool, and exposes a read-only resource. The SDK handles protocol details.
 
 **Why useful:** Compatible MCP hosts can discover the tool and request it without knowing the server's internal implementation.
 
 **Use case:** Make an approved support-document search available to a desktop AI host.
+
+To test the server with the SDK Inspector, install the CLI extra and run `mcp dev server.py` from the project folder. The Inspector requires Node.js and `npx`. If you manage the project with uv, the documented form is `uv run mcp dev server.py`. Do not add a direct `mcp.run()` call unless the API reference for your installed SDK documents that entry point.
 
 SDK imports and server startup details may change between versions. Use the official v2 quickstart as the source of truth.
 
