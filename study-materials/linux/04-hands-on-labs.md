@@ -131,3 +131,91 @@ Write a report using the template in `03-production-incident-runbook.md`. Includ
 - [ ] I can isolate DNS, TCP, TLS, and HTTP failures.
 - [ ] I can diagnose disk bytes vs inode exhaustion.
 - [ ] I can write a clear incident update with facts, hypotheses, actions, and next steps.
+
+## Free online environments for Linux practice
+
+You do not need to buy a course or install Linux to begin. These websites offer free learning material or free practice environments. Some platforms may have optional paid courses or usage limits, so check the terms shown on the site before starting a lab.
+
+### 1. WebTerm — guided browser-based practice
+
+Website: https://webterm.app/en
+
+Use this when you are new to the terminal and want to learn commands with guidance. Work through the command examples and notice how the terminal responds. It is a good place to get comfortable before attempting the more challenging labs below.
+
+**Try these first:**
+- `pwd` — see the directory you are currently working in.
+- `ls -la` — list files, including hidden files, with details.
+- `mkdir practice` — create a practice directory.
+- `cd practice` — move into that directory.
+- `touch notes.txt` — create an empty file.
+- `echo "Linux practice" > notes.txt` — write a line into the file.
+- `cat notes.txt` — display the file contents.
+
+### 2. OverTheWire: Bandit — free Linux command-line challenges
+
+Website: https://overthewire.org/wargames/bandit/
+
+Bandit is a challenge-based learning game. Each level gives you a task to solve using Linux commands. It is especially useful after you know basic navigation and file commands. Read the level instructions carefully and try to solve each task yourself before looking for hints.
+
+**Practise:** `ssh`, `ls`, `cd`, `cat`, `file`, `find`, `grep`, pipes, redirection, and file permissions.
+
+**Beginner tip:** Start at Level 0. Keep notes about the command you used, what it did, and why it solved the level. Bandit is a challenge environment, not a replacement for learning the meaning of each command.
+
+### 3. Killercoda — free interactive Linux and DevOps scenarios
+
+Website: https://killercoda.com/
+
+Use Killercoda when you want a browser-based terminal in a temporary practice environment. Browse its Linux and DevOps scenarios and choose beginner-friendly exercises first. It is also useful later for Docker and Kubernetes practice.
+
+**Practise:** navigating a Linux shell, inspecting files and processes, and following guided infrastructure scenarios.
+
+**Important:** A lab environment is temporary. Save your notes and any commands you want to keep before closing the session.
+
+### 4. Webminal — online Linux terminal
+
+Website: https://www.webminal.org/
+
+Webminal provides an online shell for practising Linux commands. Use it for basic terminal exercises when you want to type commands rather than only read about them. Account requirements and current free usage limits may change; check the website before relying on it for a long session.
+
+### 5. Linux Journey — free lessons and explanations
+
+Website: https://linuxjourney.com/
+
+Linux Journey is best used as a learning reference alongside a terminal. It explains Linux topics such as the command line, permissions, processes, packages, and filesystems. Read a lesson, then run the related commands in WebTerm, Killercoda, or your own disposable VM.
+
+## A simple free practice path
+
+| Stage | Use | What to do |
+|---|---|---|
+| First session | WebTerm | Practise `pwd`, `ls`, `cd`, `mkdir`, `touch`, `cat`, and `cp`. |
+| Learn the concepts | Linux Journey | Read about files, permissions, processes, and networking; try each example yourself. |
+| Build confidence | Webminal or Killercoda | Repeat the commands in a real shell environment. |
+| Test your skills | OverTheWire Bandit | Complete Level 0 onward and write down how you solved each challenge. |
+| DevOps practice | Killercoda | Move on to Linux, Docker, and Kubernetes scenarios when the basics feel comfortable. |
+
+## How to practise each command
+
+Do not memorise a command without understanding it. For every exercise, write down:
+
+1. **What does the command do?** Explain it in your own words.
+2. **Why would an engineer use it?** Describe the problem it helps solve.
+3. **What does each option mean?** For example, in `ls -la`, understand both `-l` and `-a`.
+4. **What output did you get?** Record the important part, not just “it worked”.
+5. **What could go wrong?** Try a harmless example with a missing file or invalid path and understand the error.
+6. **Where might this be useful in DevOps?** Connect the command to a real task such as checking logs, investigating a service, or troubleshooting disk usage.
+
+Example — `grep`:
+
+- **What:** Searches text for lines that match a pattern.
+- **Why:** An engineer may need to find errors in a large application log quickly.
+- **Try:** `grep "ERROR" ~/prod-support-lab/logs/app.log`
+- **DevOps use case:** Find error messages before investigating a production incident. Practise on sample logs or an approved non-production system only.
+
+## Safety rules for online labs
+
+- Use only the terminal and resources provided by the practice platform, or a disposable VM you control.
+- Do not enter work credentials, access tokens, passwords, private keys, customer data, or company files into a public practice website.
+- Do not run commands copied from the internet without understanding what they do.
+- Avoid destructive commands such as recursive deletion, disk-filling commands, or broad permission changes. Use the safe lab exercises in this repository instead.
+- Never test against production systems or public systems without explicit authorization.
+- Free plans, availability, and platform features can change. Check each website's current terms and limits.
