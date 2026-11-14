@@ -18,9 +18,14 @@ An assertion checks a condition. It is useful for quick learning checks, but pro
 
 ## 2. Unit tests with unittest
 
-Create `test_text_utils.py`:
+First, create `text_utils.py` with the function being tested:
 
 ```python
+# text_utils.py
+def clean_question(value: str) -> str:
+    return value.strip()
+
+# test_text_utils.py
 import unittest
 from text_utils import clean_question
 
