@@ -150,6 +150,20 @@ Containerise with Docker. Document:
 - How to disable all tools quickly.
 
 
+
+## Practice exercise
+
+Implement the capstone in small milestones:
+1. Create the folder structure and a working local Python entry point.
+2. Add two Markdown knowledge documents and a deterministic keyword search.
+3. Add tests before adding an LLM.
+4. Add a model adapter and expose only the read-only search tool.
+5. Add source citations, a no-answer response, and maximum-step handling.
+6. Add an evaluation JSON file with at least 20 cases.
+7. Run the test suite and record limitations before packaging with Docker.
+
+Keep a short development log explaining the design decisions and bugs discovered.
+
 ## Self-check
 
 1. Why should the first project version use keyword search before adding a vector database?
