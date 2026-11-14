@@ -6,7 +6,7 @@ I created this learning track to understand the topic from the beginning and app
 Developers building assistants that must answer using a controlled set of documents, such as engineering documentation, support guides, or product manuals.
 
 ## Before starting
-Complete Python Days 1–13, GenAI fundamentals, prompt engineering, and basic vector database concepts. Understand JSON, embeddings, and API calls.
+Complete Python Days 1–13, GenAI fundamentals, prompt engineering, and the vector database learning track. Understand JSON, embeddings, similarity search, and API calls.
 
 ## Learning sequence
 1. Understand when RAG is useful and when a normal model prompt is enough.
