@@ -18,14 +18,16 @@ An assertion checks a condition. It is useful for quick learning checks, but pro
 
 ## 2. Unit tests with unittest
 
-First, create `text_utils.py` with the function being tested:
+First, create `text_utils.py`:
 
 ```python
-# text_utils.py
 def clean_question(value: str) -> str:
     return value.strip()
+```
 
-# test_text_utils.py
+Then create `test_text_utils.py` in the same folder:
+
+```python
 import unittest
 from text_utils import clean_question
 
@@ -37,7 +39,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-Run `python -m unittest`. A unit test checks one small piece of behaviour in isolation.
+Run `python -m unittest`. Python imports the function from the first file, and the test checks one small piece of behaviour in isolation.
 
 ## 3. pytest
 
