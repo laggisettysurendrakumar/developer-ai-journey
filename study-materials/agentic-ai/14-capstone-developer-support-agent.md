@@ -149,6 +149,17 @@ Containerise with Docker. Document:
 - Cost and privacy assumptions.
 - How to disable all tools quickly.
 
+
+## Self-check
+
+1. Why should the first project version use keyword search before adding a vector database?
+2. Which responsibilities belong in the application rather than the LLM?
+3. Why does the assistant need source IDs and a no-answer behaviour?
+4. Why must access checks be applied before retrieved content reaches the model?
+5. Which tests prove that the agent cannot exceed its limits?
+6. What must be approved before a write tool is enabled?
+
+
 ## Definition of done
 
 - [ ] I can explain the agent control loop.
