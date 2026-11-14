@@ -90,3 +90,23 @@ Create a small vector-search proof of concept using a local or approved vector d
 - OpenAI embeddings: https://platform.openai.com/docs/guides/embeddings
 
 Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+
+## Self-check
+
+1. What does an embedding vector represent?
+2. What does vector dimension mean?
+3. Why should the query and document use compatible embedding models?
+4. What is the role of metadata filtering?
+5. How does approximate nearest-neighbour search trade exactness for speed?
+6. Why must tenant permissions be enforced by the backend query?
+
+## Practice checklist
+
+- [ ] I can explain vectors, dimensions, similarity, and metadata in plain language.
+- [ ] I can create a sample collection/index and insert vectors.
+- [ ] I can search and inspect returned metadata.
+- [ ] I can apply an access filter and test tenant separation.
+- [ ] I understand update, deletion, backup, and embedding-version migration.
+
+**Next:** Apply vector retrieval in the RAG course.
+
