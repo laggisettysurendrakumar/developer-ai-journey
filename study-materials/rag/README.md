@@ -101,3 +101,23 @@ Build a Knowledge Assistant over public or synthetic documents. Ingest Markdown 
 - OWASP LLM Top 10: https://genai.owasp.org/llm-top-10/
 
 Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+
+## Self-check
+
+1. Why is RAG useful when an LLM does not know a private document?
+2. Why should chunks retain source IDs, page/heading metadata, and version?
+3. What is the difference between retrieval quality and answer quality?
+4. Why must access filters run before private chunks are returned?
+5. What should the assistant say when retrieved evidence is insufficient?
+6. Why can prompt injection inside a document be dangerous?
+
+## Practice checklist
+
+- [ ] I can ingest a sample document and preserve its source metadata.
+- [ ] I can explain chunk size and overlap trade-offs.
+- [ ] I can retrieve relevant chunks and display their source IDs.
+- [ ] I can build an answer prompt that requires evidence and admits missing information.
+- [ ] I have tested no-answer, stale-document, and permission-filter cases.
+
+**Next:** Learn agentic AI and expose retrieval as a read-only tool.
+
