@@ -94,3 +94,23 @@ Build a Developer Support Agent with read-only tools: search a local knowledge b
 - OWASP LLM Top 10: https://genai.owasp.org/llm-top-10/
 
 Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+
+## Self-check
+
+1. When is a deterministic workflow better than an agent?
+2. What happens in an agent's tool-use loop?
+3. Why must the application validate tool arguments?
+4. What is the difference between run state and persistent memory?
+5. When should an action require human approval?
+6. Why should multi-agent designs be justified rather than used by default?
+
+## Practice checklist
+
+- [ ] I can build a bounded tool-using loop.
+- [ ] I can expose only an allowlist of narrow tools.
+- [ ] I can validate arguments and check permissions in trusted code.
+- [ ] I can stop runaway loops with step, time, and cost limits.
+- [ ] I can trace and evaluate the agent's tool choices and final results.
+
+**Next:** Learn MCP for standardised integration and evaluation for measurable reliability.
+
