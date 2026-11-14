@@ -94,3 +94,23 @@ Build a small Text Processing API: accept a question and a task (`summarise`, `c
 - OpenAI embeddings guide: https://platform.openai.com/docs/guides/embeddings
 
 Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+
+## Self-check
+
+1. How is generative AI different from traditional rule-based software?
+2. What is an LLM, and what does inference mean?
+3. Why are tokens not the same as words?
+4. What happens when the request exceeds a model's context window?
+5. Why should the application validate a model's structured response?
+6. Which information should never be placed in prompts or logs?
+
+## Practice checklist
+
+- [ ] I can explain tokens, context windows, inference, and embeddings in my own words.
+- [ ] I can call a model through a small adapter function.
+- [ ] I can validate an expected response shape.
+- [ ] I can handle missing credentials, timeouts, malformed data, and rate limits.
+- [ ] I can estimate usage and check provider pricing before running a real request.
+
+**Next:** Study prompt engineering, then vector search and RAG.
+
