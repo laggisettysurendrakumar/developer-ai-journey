@@ -79,6 +79,11 @@ $env:OPENAI_API_KEY = "YOUR_API_KEY"
 export OPENAI_API_KEY="YOUR_API_KEY"
 ```
 
+```bash
+# macOS / Linux — current terminal session
+export OPENAI_API_KEY="YOUR_API_KEY"
+```
+
 A minimal Responses API example:
 
 ```python
