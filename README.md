@@ -24,7 +24,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 
 ### Phase 4 — Build controlled agents and integrations
 
-8. **Agentic AI** — [Study agentic AI](study-materials/agentic-ai/README.md). Learn workflows, agent loops, state, tools, planning, handoffs, human approvals, and safety.
+8. **Agentic AI** — [Start the 14-lesson Agentic AI course](study-materials/agentic-ai/README.md). Progress from the manual agent loop and validated tools to memory, planning, multi-agent patterns, safety, evaluation, the OpenAI Agents SDK, and a developer-support capstone.
 9. **MCP** — [Study Model Context Protocol](study-materials/mcp/README.md). Connect model hosts to external tools and resources through a defined protocol.
 10. **LLM evaluation and observability** — [Study evaluation](study-materials/llm-evaluation/README.md). Measure quality, groundedness, tool behaviour, latency, cost, and regressions.
 
