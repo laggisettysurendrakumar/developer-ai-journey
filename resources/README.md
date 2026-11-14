@@ -25,7 +25,7 @@ This folder is a directory of learning references that support the courses in `s
 | [OpenAI API documentation](https://platform.openai.com/docs/) | Current API reference, authentication, model and response concepts |
 | [OpenAI text generation](https://platform.openai.com/docs/guides/text) | Text generation concepts and API usage |
 | [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings) | Embeddings for semantic search and retrieval |
-| [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) | Agent orchestration, tools, handoffs, and tracing in Python |
+| [OpenAI Agents SDK](https://developers.openai.com/api/docs/guides/agents/sdk) | Agent orchestration, tools, handoffs, and tracing in Python |
 | [Hugging Face course](https://huggingface.co/learn) | Open model ecosystem, transformers, tokenizers, and ML concepts |
 
 ## RAG, retrieval, and vector search
