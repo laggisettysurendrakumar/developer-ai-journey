@@ -15,7 +15,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 ### Phase 2 — Understand and call models
 
 4. **GenAI fundamentals** — [Start the 14-lesson GenAI engineering course](study-materials/genai/README.md). Progress from AI/ML and transformer foundations through tokens, model APIs, prompting, structured outputs, embeddings, multimodal models, evaluation, security, and a GenAI application capstone.
-5. **Prompt engineering** — [Study prompt engineering](study-materials/prompt-engineering/README.md). Create clear, testable prompts and learn prompt-injection boundaries.
+5. **Prompt engineering** — [Start the beginner-to-expert prompt engineering course](study-materials/prompt-engineering/README.md). Learn prompt structure, context selection, zero-/few-shot examples, reusable templates, structured outputs, developer prompt patterns, task decomposition, prompt-injection defence, evaluation, optimisation, production operations, and a Developer Support Assistant prompt-library capstone.
 
 ### Phase 3 — Give models useful knowledge
 
