@@ -20,7 +20,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 ### Phase 3 — Give models useful knowledge
 
 6. **Vector databases and semantic search** — [Study vector databases](study-materials/vector-databases/README.md). Understand embeddings, similarity, indexes, metadata filters, and persistence.
-7. **RAG fundamentals** — [Study RAG](study-materials/rag/README.md). Apply document loading, chunking, embeddings, retrieval, citations, and grounded answer evaluation.
+7. **RAG engineering** — [Start the 14-lesson beginner-to-expert RAG course](study-materials/rag/README.md). Learn RAG architecture, document ingestion, chunking, embeddings, vector indexes, similarity and hybrid retrieval, reranking, grounded answers, citations, evaluation, security, incremental indexing, production operations, and a Developer Knowledge Assistant capstone.
 
 ### Phase 4 — Build controlled agents and integrations
 
@@ -124,7 +124,7 @@ Build a **Developer Knowledge Assistant** in small increments:
 | GenAI | [GenAI](study-materials/genai/README.md) | LLM concepts, inference, APIs |
 | Prompt engineering | [Prompts](study-materials/prompt-engineering/README.md) | Instructions, schemas, robustness |
 | Vector databases | [Vector DB](study-materials/vector-databases/README.md) | Embedding storage and search |
-| RAG | [RAG](study-materials/rag/README.md) | Document retrieval and grounded answers |
+| RAG | [14-lesson RAG course](study-materials/rag/README.md) | Ingestion, chunking, embeddings, retrieval, grounding, evaluation, security, production |
 | Agentic AI | [Agents](study-materials/agentic-ai/README.md) | Tools, state, orchestration and safety |
 | MCP | [14-lesson MCP course](study-materials/mcp/README.md) | Protocol, server/client development, security, operations, .NET integration |
 | LLM evaluation | [Evaluation](study-materials/llm-evaluation/README.md) | Quality, traces, metrics, regression tests |
