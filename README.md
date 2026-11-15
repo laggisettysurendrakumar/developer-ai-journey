@@ -26,7 +26,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 
 8. **Agentic AI** — [Start the 14-lesson Agentic AI course](study-materials/agentic-ai/README.md). Progress from the manual agent loop and validated tools to memory, planning, multi-agent patterns, safety, evaluation, the OpenAI Agents SDK, and a developer-support capstone.
 9. **MCP** — [Study Model Context Protocol](study-materials/mcp/README.md). Connect model hosts to external tools and resources through a defined protocol.
-10. **LLM evaluation and observability** — [Study evaluation](study-materials/llm-evaluation/README.md). Measure quality, groundedness, tool behaviour, latency, cost, and regressions.
+10. **LLM evaluation and observability** — [Start the 14-lesson LLM Evaluation Engineering course](study-materials/llm-evaluation/README.md). Learn evaluation datasets, human rubrics, deterministic tests, metrics, LLM judges, RAG and agent evaluation, red teaming, experiment tracking, CI quality gates, and production monitoring.
 
 ### Phase 5 — Package, deploy, and operate
 
