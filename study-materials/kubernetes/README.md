@@ -1,238 +1,190 @@
-# Kubernetes for AI Application Workloads — Beginner Course
+# Kubernetes Engineering — Beginner to Advanced, with Production Support
 
-I use Kubernetes when an application needs a managed way to run containers across a cluster of machines. It can help with rollouts, scaling, service discovery, and recovery, but it adds operational complexity. A small application does not automatically need Kubernetes; start with Docker and choose a cluster only when requirements justify it.
+This course starts from the basics and builds toward the skills needed to deploy, operate, troubleshoot, and support Kubernetes workloads in real environments.
 
-## Prerequisites and learning order
+I use Kubernetes to manage containerised applications across a cluster. Kubernetes can help with scheduling, service discovery, scaling, rollout management, and workload recovery. It also introduces operational complexity, so learn Docker and container fundamentals first and choose Kubernetes when the workload and platform requirements justify it.
 
-Learn Linux, Docker, HTTP health endpoints, environment variables, YAML, and container networking first.
+A major part of this course is production support. It covers how to investigate incidents using evidence, how to identify the failing layer, how to make safe changes, and how to verify recovery without making an incident worse.
 
-1. Understand cluster, control plane, node, namespace, and kubectl.
-2. Deploy a basic Pod and inspect it.
-3. Use a Deployment to manage replicated Pods.
-4. Expose an application using a Service; learn Ingress/Gateway concepts.
-5. Configure applications with ConfigMaps and Secrets.
-6. Add startup, readiness, and liveness probes.
-7. Understand resource requests, limits, and autoscaling.
-8. Troubleshoot events, logs, rollouts, and failed Pods.
-9. Learn RBAC, service accounts, and network boundaries.
-10. Deploy a small AI API and worker to a local cluster.
+## Who this course is for
 
-## 1. Kubernetes in plain English
+This track is suitable for someone starting with Kubernetes as well as developers and support engineers who want to become confident operating workloads.
 
-Kubernetes is a platform for managing containerised applications. Instead of manually starting each container, I describe the desired state, such as running two copies of an API image. Kubernetes controllers work to keep the actual cluster close to that desired state.
+Helpful prerequisites:
+- Basic Linux commands and file permissions.
+- Docker images, containers, ports, networks, and volumes.
+- HTTP APIs and health endpoints.
+- YAML, environment variables, and Git.
+- Basic networking concepts such as DNS, IP addresses, and ports.
 
-| Term | Plain-English meaning |
-|---|---|
-| Cluster | Group of machines managed by Kubernetes |
-| Control plane | Components that make cluster-wide decisions and maintain state |
-| Node | Machine that runs workloads |
-| Pod | Smallest deployable unit; contains one or more related containers |
-| Deployment | Declares and manages a desired number of replicated Pods |
-| Service | Stable network endpoint for a set of Pods |
-| Namespace | Logical grouping of cluster resources |
-| kubectl | Command-line tool to communicate with the Kubernetes API |
+## How to study
 
-## 2. Check the cluster before doing anything
+1. Read each concept in plain language before copying commands.
+2. Understand what a Kubernetes object or command changes.
+3. Practise on kind, minikube, or another disposable local cluster.
+4. Check the current context and namespace before every state-changing operation.
+5. Use read-only commands first during troubleshooting.
+6. Record symptoms, events, logs, metrics, root cause, and recovery evidence.
+7. Never experiment on a production cluster without permission, change approval, and an agreed rollback or mitigation plan.
+
+Some exercises create resources or incur cloud costs. Use an authorised learning environment and remove only resources you created.
+
+## Learning roadmap
+
+| Stage | Lessons | What I learn |
+|---|---|---|
+| Beginner foundations | 01–02 | Cluster architecture, API, kubectl, Pods, ReplicaSets, Deployments |
+| Application networking/configuration | 03–05 | Services, DNS, ingress/gateway, ConfigMaps, Secrets, probes, lifecycle |
+| Workload operations | 06–08 | Scheduling, storage, StatefulSets, autoscaling, disruption and capacity |
+| Security and release engineering | 09–10 | RBAC, ServiceAccounts, NetworkPolicies, Helm, Kustomize, GitOps |
+| Monitoring and platform operations | 11–12 | Logs, events, metrics, traces, cluster maintenance, upgrades |
+| Production support and SRE | 13–14 | Incident triage, failure diagnosis, safe remediation, runbooks, SLOs, support simulation |
+
+## Lesson index
+
+### Beginner — Understand the platform
+
+1. [Kubernetes Foundations, Architecture and the API](01-kubernetes-foundations-architecture-and-api.md) — control plane, nodes, API server, reconciliation, namespaces, labels, contexts, and kubectl.
+2. [Pods, ReplicaSets and Deployments](02-pods-replicasets-and-deployments.md) — Pod lifecycle, selectors, replicas, scaling, image updates, rollouts, and rollback limitations.
+
+### Application networking and configuration
+
+3. [Services, Ingress, Gateway and DNS](03-services-ingress-gateway-and-dns.md) — Service types, selectors, EndpointSlices, DNS, Ingress controllers, Gateway API, and connectivity.
+4. [ConfigMaps, Secrets and Application Configuration](04-configmaps-secrets-and-application-configuration.md) — configuration delivery, Secret security, external secret management, and ASP.NET Core configuration.
+5. [Probes, Container Lifecycle and Graceful Shutdown](05-probes-lifecycle-hooks-and-graceful-shutdown.md) — startup, readiness, liveness, termination, and worker shutdown.
+
+### Intermediate — Scheduling, storage and scaling
+
+6. [Scheduling, Labels, Affinity, Taints and Quotas](06-scheduling-labels-affinity-taints-and-quotas.md) — scheduler decisions, resource requests, node placement, tolerations, and namespace limits.
+7. [Kubernetes Storage, PV, PVC and StatefulSets](07-storage-pv-pvc-and-statefulsets.md) — volumes, dynamic provisioning, storage classes, stateful workloads, and backup considerations.
+8. [Autoscaling, Disruption and Capacity](08-autoscaling-disruption-and-capacity.md) — HPA, VPA, cluster autoscaler, PDB, capacity planning, and AI workload constraints.
+
+### Advanced — Security and release management
+
+9. [RBAC, ServiceAccounts and NetworkPolicies](09-rbac-serviceaccounts-and-networkpolicies.md) — authentication, authorisation, least privilege, workload identity, and network segmentation.
+10. [Helm, Kustomize and Release Management](10-helm-kustomize-and-release-management.md) — charts, releases, overlays, manifest rendering, GitOps, and controlled deployment.
+
+### Monitoring and platform lifecycle
+
+11. [Kubernetes Observability: Logs, Metrics, Events and Tracing](11-observability-logs-metrics-events-and-tracing.md) — kubectl diagnostics, metrics pipeline, Prometheus/Grafana, events, and distributed tracing.
+12. [Cluster Installation, Upgrades and Maintenance](12-cluster-installation-upgrades-and-maintenance.md) — local clusters, managed Kubernetes, compatibility, upgrades, node drain, and recovery planning.
+
+### Production support — Real operational activities
+
+13. [Production Support Playbook: Triage and Incident Management](13-production-support-playbook-triage-and-incident-management.md) — first five-minute checks, common incidents, diagnostic workflows, rollout support, safe remediation, and post-incident reviews.
+14. [Production Support Scenarios, Runbooks and SRE Practices](14-production-support-scenarios-runbooks-and-sre.md) — API outages, restart spikes, NotReady nodes, DNS, storage, capacity, SLOs, and support simulations.
+
+## Production support quick reference
+
+These are examples of read-only first-response commands. Confirm the active context, namespace, and access policy before running them.
 
 ```bash
+# Which cluster will kubectl use?
 kubectl config current-context
+
+# What is happening across the cluster?
 kubectl get nodes
-kubectl get namespaces
-kubectl get pods -A
+kubectl get pods -A -o wide
+
+# What happened recently in the affected namespace?
+kubectl get events -n <namespace> --sort-by=.lastTimestamp
+
+# Why is a particular Pod failing?
+kubectl describe pod <pod-name> -n <namespace>
+kubectl logs <pod-name> -n <namespace> --since=30m
+kubectl logs <pod-name> -n <namespace> --previous
+
+# Are Services routing to ready Pods?
+kubectl get svc,endpointslices -n <namespace>
+
+# Is resource usage available?
+kubectl top nodes
+kubectl top pods -n <namespace>
 ```
 
-**What it does:** Shows the current cluster context, nodes, namespaces, and Pods across namespaces.
+The metrics commands require a configured metrics pipeline. Some clusters have provider-specific monitoring instead.
 
-**Why useful?** The same kubectl command can affect different clusters depending on the current context. Always confirm the target first.
+### Production command safety
 
-**Use case:** Prevent an accidental deployment to the wrong cluster.
+**Read-only diagnostics:** `get`, `describe`, `logs`, `top`, `api-resources`, `explain`, and `auth can-i` are generally used for inspection.
 
-## 3. Pod and Deployment
+**Potentially disruptive or state-changing operations:** `apply`, `delete`, `scale`, `patch`, `rollout restart`, `rollout undo`, `cordon`, `drain`, and interactive `exec` can affect running workloads or cluster state.
 
-A Pod wraps one or more containers that share a network identity and can share storage. Most application workloads should be managed by a Deployment rather than by creating standalone Pods.
+Before remediation, verify the target, assess blast radius, check capacity and redundancy, review PodDisruptionBudgets and rollout status, follow approval policy, record the current state, and define how recovery will be verified.
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: assistant-api
-  namespace: learning
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: assistant-api
-  template:
-    metadata:
-      labels:
-        app: assistant-api
-    spec:
-      containers:
-        - name: api
-          image: nginx:1.27
-          ports:
-            - containerPort: 80
-```
+Never delete a production PVC or namespace, restart every Pod, or drain a node as a generic first troubleshooting step.
 
-This is a learning example using an official sample image, not a GenAI API. Replace the image with a reviewed application image when practising your own service.
+## Recommended hands-on journey
 
-- replicas asks Kubernetes to keep two Pod copies.
-- selector identifies the Pods belonging to this Deployment.
-- template describes each Pod.
-- containerPort documents the container's listening port.
+Build and operate a small ASP.NET Core API and a background worker:
 
-Apply only in a disposable/local cluster:
+1. Containerise both services with Docker.
+2. Create a local Kubernetes cluster using kind or minikube.
+3. Deploy the API using a Deployment.
+4. Expose it through a ClusterIP Service.
+5. Add ConfigMaps, approved Secret handling, and health probes.
+6. Set CPU and memory requests/limits.
+7. Add a worker and queue dependency.
+8. Configure persistent storage only where the workload needs it.
+9. Add RBAC and NetworkPolicy in a supported local environment.
+10. Package resources with Helm or Kustomize.
+11. Add metrics, logs, and tracing.
+12. Simulate incidents and complete the support runbooks.
+13. Deploy to an authorised non-production managed cluster.
+14. Document upgrade, rollback, backup, and recovery procedures.
 
-```bash
-kubectl create namespace learning
-kubectl apply -f deployment.yaml
-kubectl get deployments,pods -n learning
-```
+## Production support scenarios to practise
 
-Remove the learning resources when finished:
+- CrashLoopBackOff and repeated restarts.
+- Pending Pods caused by capacity, affinity, quota, or storage.
+- ImagePullBackOff and registry permission failures.
+- Service selectors with no endpoints.
+- DNS, Ingress, Gateway, TLS, and NetworkPolicy problems.
+- Readiness/liveness probe failures.
+- OOMKilled containers and CPU throttling.
+- PVC binding, mount, and CSI problems.
+- HPA not scaling or scaling too aggressively.
+- Deployment rollout failures and rollback decisions.
+- Node NotReady, maintenance, cordon, and drain.
+- Cluster version and add-on upgrade issues.
 
-```bash
-kubectl delete namespace learning
-```
+For each scenario, practise documenting symptoms, impact, evidence, timeline, root cause, mitigation, validation, and preventive actions.
 
-Deletion removes all namespaced resources in that lab namespace. Confirm the current context and namespace before running it.
+## Skills checklist
 
-## 4. Service: stable access to Pods
+- [ ] Explain the control plane, node components, API server, scheduler, and controllers.
+- [ ] Verify cluster context and namespace before making changes.
+- [ ] Deploy, inspect, scale, update, and roll back a Deployment.
+- [ ] Explain Pods, ReplicaSets, labels, selectors, and namespaces.
+- [ ] Configure Services, DNS, Ingress, Gateway, and TLS.
+- [ ] Manage ConfigMaps and Secrets safely.
+- [ ] Design startup, readiness, and liveness probes.
+- [ ] Explain requests, limits, scheduling, taints, affinity, and quotas.
+- [ ] Configure PVs, PVCs, StorageClasses, and StatefulSets.
+- [ ] Understand HPA, VPA, cluster autoscaler, and PDBs.
+- [ ] Apply least-privilege RBAC and NetworkPolicies.
+- [ ] Use Helm and Kustomize to manage releases.
+- [ ] Diagnose using events, logs, metrics, and traces.
+- [ ] Plan cluster maintenance and upgrades safely.
+- [ ] Triage common production incidents using read-only evidence first.
+- [ ] Assess blast radius and approvals before remediation.
+- [ ] Write runbooks, incident timelines, and post-incident actions.
+- [ ] Define user-focused SLIs and SLOs.
 
-Pod IP addresses can change when Pods are replaced. A Service gives a stable virtual endpoint and selects Pods using labels.
+## Suggested pace
 
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: assistant-api
-  namespace: learning
-spec:
-  selector:
-    app: assistant-api
-  ports:
-    - name: http
-      port: 80
-      targetPort: 80
-  type: ClusterIP
-```
+A first pass may take 6–10 weeks with regular hands-on practice. Becoming proficient in production support requires repeated troubleshooting in realistic non-production environments and learning the policies and architecture of the actual platform you support. The goal is not to memorise commands; it is to understand the evidence and impact behind each action.
 
-ClusterIP exposes the Service inside the cluster. Other options such as LoadBalancer expose it differently and may create cloud resources and costs.
+## Official references
 
-## 5. ConfigMap and Secret
+- [Kubernetes documentation](https://kubernetes.io/docs/home/)
+- [Kubernetes concepts](https://kubernetes.io/docs/concepts/)
+- [kubectl reference](https://kubernetes.io/docs/reference/kubectl/)
+- [Kubernetes tasks](https://kubernetes.io/docs/tasks/)
+- [Kubernetes troubleshooting](https://kubernetes.io/docs/tasks/debug/)
+- [Kubernetes security](https://kubernetes.io/docs/concepts/security/)
+- [Helm](https://helm.sh/docs/)
+- [Kustomize](https://kustomize.io/)
+- [Google SRE book](https://sre.google/sre-book/table-of-contents/)
 
-A ConfigMap stores non-secret configuration. A Secret is intended for sensitive values, but it is not automatically safe merely because it is a Secret object. Configure encryption at rest, RBAC, access restrictions, and secure delivery.
-
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: assistant-settings
-  namespace: learning
-data:
-  APP_ENV: "development"
-  LOG_LEVEL: "INFO"
-```
-
-Do not put API keys into a committed YAML file. Use a secret manager or the cluster's approved secret-injection integration. Avoid displaying secret values in terminal output or logs.
-
-## 6. Probes: started, ready, and healthy
-
-- Startup probe gives a slow-starting application time to initialise.
-- Readiness probe decides whether the Pod should receive traffic.
-- Liveness probe detects a process that is stuck and may need restart.
-
-```yaml
-startupProbe:
-  httpGet:
-    path: /health/startup
-    port: 8000
-  failureThreshold: 30
-  periodSeconds: 5
-readinessProbe:
-  httpGet:
-    path: /health/ready
-    port: 8000
-  periodSeconds: 10
-livenessProbe:
-  httpGet:
-    path: /health/live
-    port: 8000
-  periodSeconds: 20
-```
-
-These paths must exist and should be designed carefully. A readiness failure removes a Pod from service endpoints; a liveness failure can cause restarts. Do not make liveness depend on every remote service, or a temporary dependency failure can restart all application Pods.
-
-## 7. Requests, limits, and autoscaling
-
-Resource requests help the scheduler place workloads. Limits cap resource use where supported. CPU limits can throttle; memory limits can cause the container to be terminated when it exceeds the limit.
-
-```yaml
-resources:
-  requests:
-    cpu: 250m
-    memory: 512Mi
-  limits:
-    cpu: "1"
-    memory: 1Gi
-```
-
-Values above are examples only. Measure real application usage. AI workloads can have large memory needs, model downloads, GPU requirements, and bursts in network calls. Autoscaling needs meaningful metrics and enough downstream capacity.
-
-## 8. Troubleshoot a workload
-
-```bash
-kubectl get pods -n learning -o wide
-kubectl describe pod <pod-name> -n learning
-kubectl logs <pod-name> -n learning --since=15m
-kubectl get events -n learning --sort-by=.lastTimestamp
-kubectl rollout status deployment/assistant-api -n learning
-```
-
-Common symptoms:
-- Pending: scheduling, resource, node, or volume issue.
-- ImagePullBackOff: image name, registry access, or pull credentials.
-- CrashLoopBackOff: container repeatedly exits; inspect current and previous logs.
-- Not Ready: readiness probe, dependencies, or app initialisation issue.
-
-Use the previous-container log option when a container has crashed. Redact secrets from diagnostic output.
-
-## 9. Identity and security basics
-
-- Use a dedicated ServiceAccount for each workload where appropriate.
-- Apply least-privilege RBAC.
-- Avoid cluster-admin for application Pods.
-- Restrict network paths with appropriate NetworkPolicies and cloud controls.
-- Scan images and run as non-root.
-- Keep secrets outside source control.
-- Check context and namespace before every state-changing command.
-
-Commands such as apply, delete, exec, scale, patch, and rollout restart can affect running workloads. Use them only in your lab or through an approved operational process.
-
-## 10. Practice project
-
-Deploy the containerised Developer Knowledge Assistant to a local cluster:
-1. Create a dedicated learning namespace.
-2. Deploy the API image with two replicas.
-3. Expose it internally with a ClusterIP Service.
-4. Supply non-secret configuration with a ConfigMap.
-5. Add secret integration without committing secret values.
-6. Implement startup, readiness, and liveness endpoints.
-7. Set measured resource requests and limits.
-8. Test rollout, Pod failure, and logs.
-9. Document how persistent vector data would be stored and backed up.
-
-## Self-check
-
-1. What is the difference between a Pod and a Deployment?
-2. Why does a Service exist when Pods already have IP addresses?
-3. How are readiness and liveness probes different?
-4. Why is a Secret not automatically a complete secret-management solution?
-5. Why should an AI API have resource limits and concurrency controls?
-
-## References
-
-- Kubernetes concepts: https://kubernetes.io/docs/concepts/
-- kubectl reference: https://kubernetes.io/docs/reference/kubectl/
-- Probes: https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/
-- Deployments: https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+Kubernetes releases, API versions, provider features, controllers, CNI/CSI behaviour, and command options change. Confirm compatibility with the cluster version and provider documentation before production use.
