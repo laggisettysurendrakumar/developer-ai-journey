@@ -32,7 +32,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 
 11. **Docker** — [Start the 14-lesson Docker engineering course](study-materials/docker/README.md). Progress from container basics through Dockerfiles, .NET container builds, networking, volumes, Compose, registries, security, BuildKit, CI/CD, and production readiness.
 12. **Kubernetes** — [Start the 14-lesson Kubernetes engineering and production-support course](study-materials/kubernetes/README.md). Progress from cluster fundamentals through workloads, networking, storage, security, Helm, observability, upgrades, incident triage, runbooks, and SRE practices.
-13. **Terraform** — [Study Terraform](study-materials/terraform/README.md). Provision repeatable infrastructure with reviewed plans and secure state.
+13. **Terraform** — [Start the 14-lesson beginner-to-expert Terraform course](study-materials/terraform/README.md). Learn IaC fundamentals, HCL, providers, variables, state, modules, remote backends, environment strategy, Azure networking and identity, drift, import, state recovery, CI/CD, security, and an Azure platform foundation capstone.
 14. **Azure** — [Start the 14-lesson Azure engineering course](study-materials/azure/README.md). Progress from cloud and identity foundations through networking, compute, data, security, DevOps, Terraform, reliability, cost management, Azure AI, and a production-minded capstone.
 
 ## Repository map
@@ -130,7 +130,7 @@ Build a **Developer Knowledge Assistant** in small increments:
 | LLM evaluation | [Evaluation](study-materials/llm-evaluation/README.md) | Quality, traces, metrics, regression tests |
 | Docker | [Docker](study-materials/docker/README.md) | Container packaging and runtime |
 | Kubernetes | [Kubernetes](study-materials/kubernetes/README.md) | Cluster deployment and operations |
-| Terraform | [Terraform](study-materials/terraform/README.md) | Infrastructure as Code |
+| Terraform | [14-lesson Terraform course](study-materials/terraform/README.md) | HCL, state, modules, Azure, security, CI/CD, production operations |
 | Azure | [Azure](study-materials/azure/README.md) | Cloud hosting, identity, AI services, monitoring |
 
 ## Curated resources
