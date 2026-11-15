@@ -1,116 +1,139 @@
-# Generative AI Fundamentals
+# Generative AI Engineering — Beginner to Advanced
 
-I created this learning track to understand the topic from the beginning and apply it to real GenAI and agentic AI applications. Each concept is explained in plain language, followed by code, why it is useful, a developer use case, and an exercise.
+This learning track explains how generative AI systems work and how to integrate them into reliable applications. It starts with AI and machine-learning foundations, then moves through LLM behaviour, tokens, model APIs, prompts, structured outputs, embeddings, multimodal models, evaluation, safety, and production design.
 
-## Who should use this guide
-Developers who know basic Python and want to understand how applications use generative models. Start after the Python course, especially Days 1–12.
+The focus is practical software engineering: understand what the model does, what the application must do around it, and how to build a feature that can be tested, monitored, secured, and maintained.
 
-## Before starting
-Complete the Python fundamentals course through Day 12. Understand HTTP requests, JSON, environment variables, and Pydantic validation.
+## Who this course is for
 
-## Learning sequence
-1. Understand AI, machine learning, deep learning, generative AI, and LLMs.
-2. Learn tokens, tokenisation, context windows, model limits, and why text length matters.
-3. Understand model inputs, roles, responses, and the request/response lifecycle.
-4. Call a model API from Python using environment variables and timeouts.
-5. Work with structured outputs and validate responses.
-6. Learn embeddings and multimodal inputs at a conceptual level.
-7. Build a small summarisation/classification API and test its failure cases.
+This course is designed for developers who know basic programming and want to build GenAI features. Python examples are used for clarity, but the concepts apply to ASP.NET Core, Java, Node.js, and other backends.
 
-## Important concepts in plain language
-### Artificial intelligence (AI)
-AI is the broad field of building systems that perform tasks associated with human intelligence. Machine learning is one approach within AI: instead of writing every rule manually, we train a model using data.
+Helpful prerequisites:
+- Basic Python syntax and functions.
+- HTTP, REST APIs, JSON, and environment variables.
+- Basic understanding of Git and testing.
+- Pydantic or DTO/model validation is useful but can be learned along the way.
 
-### Generative AI
-Generative AI creates new content such as text, code, images, audio, or structured data based on learned patterns and the input it receives.
+## How to use the lessons
 
-### Large language model (LLM)
-An LLM is a model designed to process and generate language. It can draft or summarise, but it can also produce incorrect information. The application must validate important outputs.
+1. Read the concept explanation and make sure you can explain it in plain English.
+2. Study the example and understand what each line does.
+3. Identify what is deterministic application logic and what is delegated to the model.
+4. Run the practice exercise with synthetic or public sample data.
+5. Complete the self-check without looking back at the lesson.
+6. Record model, SDK, and prompt versions when testing a live provider.
+7. Check current official documentation before using a provider API, SDK parameter, model, or pricing detail.
 
-### Token
-A token is a unit used by a model to represent text. Tokens are not the same as words; punctuation and word pieces may be separate tokens. Token counts affect context limits, latency, and usage costs.
+Never commit API keys or company/customer data. Live model calls may incur charges; use an approved account and a small usage budget.
 
-### Context window
-The context window is the amount of input and generated output a model can handle in one request. Long conversation history and large documents use this capacity.
+## Learning roadmap
 
-### Inference
-Inference is the act of using a trained model to produce an output for a particular input.
+| Stage | Lessons | Outcome |
+|---|---|---|
+| Foundations | 01–03 | Understand AI, ML, LLMs, transformers, tokens, context, and generation |
+| Application integration | 04–06 | Call model APIs, structure prompts, parse and validate output |
+| Model capabilities | 07–09 | Understand embeddings, multimodal models, and model selection |
+| Quality and safety | 10–12 | Handle failures, evaluate output, monitor, and protect applications |
+| Production design | 13–14 | Manage cost/latency and build an end-to-end GenAI API |
 
-### Embedding
-An embedding is a numeric vector representing text or other content in a way that can support similarity search. See the RAG and vector database tracks.
+## Lesson index
 
-## Practical examples
-Example — validate a model-like response before using it
-The example uses a fixed dictionary rather than a paid model call. It shows why an application should validate the shape of data returned by an external model.
-```python
-from pydantic import BaseModel, Field
+### Beginner — Understand the technology
 
-class Summary(BaseModel):
-    title: str = Field(min_length=1)
-    key_points: list[str]
+1. [AI, Machine Learning, Deep Learning and Generative AI](01-ai-ml-deep-learning-and-generative-ai.md) — explain the AI landscape and know when ordinary code is a better fit.
+2. [How LLMs Work: Training, Inference and Transformers](02-how-llms-work-training-inference-and-transformers.md) — tokens, neural representations, attention, next-token generation, and model limitations.
+3. [Tokens, Context Windows and Generation Settings](03-tokens-context-windows-and-generation-settings.md) — context budgets, token usage, model settings, and conversation length.
 
-raw_response = {
-    "title": "Linux service investigation",
-    "key_points": ["Check service state", "Read recent logs"]
-}
+### Intermediate — Integrate models into applications
 
-summary = Summary.model_validate(raw_response)
-print(summary.title)
-for point in summary.key_points:
-    print("-", point)
-```
-Use case: an incident summariser returns a predictable object that a web UI can render. Validation checks the structure, not whether the model's facts are true.
-Example — model API boundary (provider-neutral pseudocode)
-The exact SDK differs by provider. Keep the model call behind a small function so the rest of the application does not depend on a specific vendor's response format.
-```python
-def generate_answer(client, model_name: str, prompt: str) -> str:
-    # Pseudocode: replace with the selected provider's current SDK.
-    response = client.generate(model=model_name, input=prompt)
-    return response.text
-```
-Use case: switch model providers or mock the model in unit tests without rewriting your business logic.
+4. [Model APIs and Provider Integration](04-model-apis-and-provider-integration.md) — request lifecycle, adapters, credentials, streaming, timeouts, and provider errors.
+5. [Prompt Structure, Messages and Instructions](05-prompt-structure-messages-and-instructions.md) — task definition, trusted instructions, examples, prompt versioning, and injection boundaries.
+6. [Structured Outputs, JSON and Validation](06-structured-outputs-json-and-validation.md) — schemas, Pydantic, structured response features, and application validation.
 
-## Mini-project
-Build a small Text Processing API: accept a question and a task (`summarise`, `classify`, or `rewrite`), validate it, call a selected model through one adapter, validate structured output, and return a clear error for timeout, rate limit, or malformed responses. Use synthetic sample data.
+### Model capabilities — Work with different kinds of information
 
-## Safety, quality, and cost
-- Never treat generated content as guaranteed truth.
-- Never place API keys in source code, notebooks, logs, browser code, or Git.
-- Set request timeouts and handle rate limits; do not retry indefinitely.
-- Check data handling, retention, residency, and provider terms before sending business or personal data.
-- Track token usage, latency, and estimated cost.
+7. [Embeddings and Semantic Representations](07-embeddings-and-semantic-representations.md) — vectors, similarity, compatibility, and search foundations.
+8. [Multimodal Models: Images, Audio and Video](08-multimodal-models-images-audio-and-video.md) — media input/output, validation, privacy, and application considerations.
+9. [Model Selection, Quality and Benchmarks](09-model-selection-quality-and-benchmarks.md) — requirements, evaluation datasets, quality dimensions, and trade-offs.
 
-## Suggested practice routine
-1. Read one section and explain the idea in your own words.
-2. Type the example instead of copying it blindly.
-3. Change one input and predict the output before running it.
-4. Test an invalid input and inspect the error.
-5. Complete the exercise and record what you learned.
+### Advanced — Build reliable and responsible features
 
-## References
-- Python tutorial: https://docs.python.org/3/tutorial/
-- OpenAI API documentation: https://platform.openai.com/docs/
-- OpenAI text generation guide: https://platform.openai.com/docs/guides/text
-- OpenAI embeddings guide: https://platform.openai.com/docs/guides/embeddings
+10. [Reliability, Rate Limits and Error Handling](10-reliability-rate-limits-and-error-handling.md) — provider failures, backoff, timeouts, concurrency, and idempotency.
+11. [Evaluation, Testing and Observability for GenAI](11-evaluation-testing-and-observability.md) — unit tests, evaluations, regression tests, metrics, and traces.
+12. [Security, Privacy and Responsible AI](12-security-privacy-and-responsible-ai.md) — prompt injection, data protection, output validation, and human oversight.
 
-Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+### Production — Design and deliver a GenAI application
 
-## Self-check
+13. [Cost, Latency and Production Design](13-cost-latency-and-production-design.md) — cost drivers, latency budgets, architecture boundaries, and capacity planning.
+14. [GenAI Application Architecture and Capstone](14-genai-application-capstone.md) — build a Text Processing API with model adapter, validation, evaluation, security, and deployment foundations.
 
-1. How is generative AI different from traditional rule-based software?
-2. What is an LLM, and what does inference mean?
-3. Why are tokens not the same as words?
-4. What happens when the request exceeds a model's context window?
-5. Why should the application validate a model's structured response?
-6. Which information should never be placed in prompts or logs?
+## What this course covers — and what is taught separately
 
-## Practice checklist
+This track teaches the core foundations of generative models and application integration. It introduces embeddings and multimodal capabilities, but does not attempt to replace the deeper tracks:
 
-- [ ] I can explain tokens, context windows, inference, and embeddings in my own words.
-- [ ] I can call a model through a small adapter function.
-- [ ] I can validate an expected response shape.
-- [ ] I can handle missing credentials, timeouts, malformed data, and rate limits.
-- [ ] I can estimate usage and check provider pricing before running a real request.
+- [Prompt Engineering](../prompt-engineering/README.md) — prompt patterns and advanced techniques.
+- [Vector Databases](../vector-databases/README.md) — indexing, metadata, similarity search, and vector storage.
+- [RAG](../rag/README.md) — ingestion, chunking, retrieval, grounding, and citations.
+- [Agentic AI](../agentic-ai/README.md) — tools, agent loops, planning, memory, handoffs, and production agents.
+- [LLM Evaluation](../llm-evaluation/README.md) — additional evaluation and observability practice.
 
-**Next:** Study prompt engineering, then vector search and RAG.
+## Suggested study pace
 
+A first pass may take 3–5 weeks with regular practice. Spend more time implementing and evaluating than memorising definitions. Use a fake model in unit tests so the test suite does not need a live provider call.
+
+## Capstone — Text Processing API
+
+Build an API that accepts text and a task such as summarise, classify, or rewrite.
+
+Expected components:
+- FastAPI or ASP.NET Core API.
+- Request validation and clear response models.
+- Provider-neutral model adapter.
+- Versioned prompt templates.
+- Structured output parsing and validation.
+- Fake model for unit tests.
+- Error handling for timeout, rate limit, invalid credentials, and malformed response.
+- Evaluation dataset and quality rubric.
+- Safe logging, usage and latency measurement.
+- Docker packaging and documented non-production deployment.
+
+### Definition of done
+
+- The API runs locally from documented steps.
+- Provider-specific calls are isolated behind an adapter.
+- Tests run without a real model credential.
+- Inputs and outputs are validated.
+- Model errors map to predictable application behaviour.
+- Prompt/model versions and token usage can be inspected.
+- Sensitive prompts and credentials are not logged by default.
+- Evaluation includes normal, ambiguous, and adversarial examples.
+- Cost and latency assumptions are documented.
+
+## Learning checklist
+
+- [ ] Explain AI, machine learning, deep learning, and generative AI.
+- [ ] Describe training versus inference and the basic transformer generation process.
+- [ ] Explain tokens, context windows, and token-based usage.
+- [ ] Call a model using a secure backend integration.
+- [ ] Design prompts with clear tasks and content boundaries.
+- [ ] Validate structured outputs and distinguish schema validity from factual truth.
+- [ ] Explain embeddings and similarity search.
+- [ ] Identify multimodal input requirements and risks.
+- [ ] Compare models using a repeatable evaluation dataset.
+- [ ] Handle rate limits, timeouts, and provider errors.
+- [ ] Evaluate output quality, cost, and latency.
+- [ ] Apply privacy, security, and responsible AI controls.
+- [ ] Build and explain a complete GenAI application architecture.
+
+## Official references
+
+- [OpenAI API documentation](https://platform.openai.com/docs/)
+- [OpenAI text generation](https://platform.openai.com/docs/guides/text)
+- [OpenAI prompt engineering](https://platform.openai.com/docs/guides/prompt-engineering)
+- [OpenAI structured outputs](https://platform.openai.com/docs/guides/structured-outputs)
+- [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings)
+- [Hugging Face NLP Course](https://huggingface.co/learn/nlp-course/)
+- [Pydantic documentation](https://docs.pydantic.dev/latest/)
+- [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/)
+
+Model capabilities, SDKs, APIs, model identifiers, limits, and pricing change. Verify current provider documentation before using examples in a real application.
