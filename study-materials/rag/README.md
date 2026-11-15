@@ -1,123 +1,105 @@
-# Retrieval-Augmented Generation (RAG)
+# Retrieval-Augmented Generation (RAG) — Beginner to Expert Learning Path
 
-I created this learning track to understand the topic from the beginning and apply it to real GenAI and agentic AI applications. Each concept is explained in plain language, followed by code, why it is useful, a developer use case, and an exercise.
+I use this course to learn how to build reliable AI applications that answer from an approved knowledge base. It begins with the basic RAG idea and progresses through document ingestion, chunking, embeddings, vector retrieval, hybrid search, grounded generation, evaluation, security, operations, and a complete developer-assistant capstone.
 
-## Who should use this guide
-Developers building assistants that must answer using a controlled set of documents, such as engineering documentation, support guides, or product manuals.
+The objective is to understand the whole system rather than simply learn one vector database or framework.
 
-## Before starting
-Complete Python Days 1–13, GenAI fundamentals, prompt engineering, and the vector database learning track. Understand JSON, embeddings, similarity search, and API calls.
+## Who this course is for
 
-## Learning sequence
-1. Understand when RAG is useful and when a normal model prompt is enough.
-2. Load documents and extract text while retaining source metadata.
-3. Clean text and split it into meaningful chunks.
-4. Generate embeddings and store vectors with metadata.
-5. Retrieve candidate chunks using similarity search.
-6. Add metadata filters, access-control checks, and citations.
-7. Improve retrieval with keyword/hybrid search and reranking.
-8. Build a RAG answer flow and evaluate retrieval and groundedness.
+Developers who know basic programming, JSON, APIs, and the fundamentals of LLMs. Python is used for small teaching examples. The capstone also includes an ASP.NET Core integration challenge.
 
-## Important concepts in plain language
-### Retrieval
-Retrieval means finding relevant information from a knowledge source for a particular question. Search quality has a major effect on RAG quality.
+## What I should be able to do by the end
 
-### Chunk
-A chunk is a manageable section of a document. It should preserve meaning and keep source information such as document ID, heading, and page.
+- Explain the indexing and query pipelines and when RAG is appropriate.
+- Parse documents while preserving source structure and metadata.
+- Design and compare chunking strategies.
+- Understand embeddings, similarity, vector indexes, and storage options.
+- Build retrieval with top-k, filters, and query processing.
+- Compare keyword, vector, hybrid, and reranked retrieval.
+- Generate evidence-based answers with citations and safe abstention.
+- Evaluate retrieval and answer quality separately.
+- Protect private data with permission-aware retrieval and tenant isolation.
+- Operate incremental ingestion, re-indexing, deletion, and recovery.
+- Design production latency, caching, cost, monitoring, and reliability controls.
+- Build a Developer Knowledge Assistant and understand its .NET service boundaries.
 
-### Embedding
-An embedding model converts text into a numeric vector. Similarity between vectors can help find conceptually related passages.
+## Learning path
 
-### RAG
-Retrieval-Augmented Generation retrieves evidence first, then supplies that evidence to the LLM to help it produce a grounded answer.
+| Lesson | Topic | Outcome |
+|---:|---|---|
+| 01 | [RAG fundamentals and when to use RAG](01-rag-fundamentals-and-when-to-use-rag.md) | Understand the problem and the RAG pattern |
+| 02 | [RAG architecture and end-to-end data flow](02-rag-architecture-and-end-to-end-data-flow.md) | Understand indexing and query stages |
+| 03 | [Document ingestion, parsing, and normalisation](03-document-ingestion-parsing-and-normalisation.md) | Prepare reliable source content |
+| 04 | [Chunking strategies and metadata design](04-chunking-strategies-and-metadata-design.md) | Split content without losing meaning |
+| 05 | [Embeddings, models, and vector representations](05-embeddings-models-and-vector-representations.md) | Understand semantic representations |
+| 06 | [Vector indexes and storage backends](06-vector-indexes-and-storage-backends.md) | Choose and operate a vector store |
+| 07 | [Retrieval, similarity search, and query design](07-retrieval-similarity-search-and-query-design.md) | Retrieve useful evidence |
+| 08 | [Hybrid search, keyword retrieval, and reranking](08-hybrid-search-keyword-retrieval-and-reranking.md) | Improve ranking for exact and semantic queries |
+| 09 | [Grounded generation, citations, and abstention](09-grounded-generation-citations-and-abstention.md) | Answer from evidence and admit missing information |
+| 10 | [RAG evaluation: retrieval and answer quality](10-rag-evaluation-retrieval-and-answer-quality.md) | Measure each part of the pipeline |
+| 11 | [RAG security, access control, and prompt injection](11-rag-security-access-control-and-prompt-injection.md) | Protect documents and users |
+| 12 | [RAG pipeline engineering and incremental indexing](12-rag-pipeline-engineering-incremental-indexing-and-operations.md) | Handle updates, deletes, and failures |
+| 13 | [Production RAG architecture, caching, and performance](13-production-rag-architecture-caching-and-performance.md) | Operate a reliable production service |
+| 14 | [Capstone: Developer Knowledge Assistant with RAG](14-capstone-developer-knowledge-assistant-rag.md) | Build an end-to-end solution |
 
-### Reranking
-Reranking takes an initial list of retrieved passages and scores them again to place the most useful evidence higher.
+## Suggested learning pace
 
-### Grounded answer
-A grounded answer is supported by the supplied evidence. A citation should point to the source actually used, not simply to a related document.
+A first pass can take 3–4 weeks at 1–2 focused hours per day. Spend additional time on chunking, retrieval evaluation, permission filtering, and the capstone. Reading about RAG is not enough: run the pipeline against a labelled dataset and inspect failed retrievals.
 
-## Practical examples
-Example — chunk a document and keep its source
-This simple character-based chunker teaches overlap and metadata. Production chunking should use document structure and may use token-aware boundaries.
-```python
-def make_chunks(text: str, document_id: str, size: int = 500, overlap: int = 80):
-    if size <= 0 or not 0 <= overlap < size:
-        raise ValueError("Require size > 0 and 0 <= overlap < size")
+## Recommended prerequisites and environment
 
-    chunks = []
-    start = 0
-    while start < len(text):
-        end = min(start + size, len(text))
-        chunks.append({
-            "document_id": document_id,
-            "start": start,
-            "text": text[start:end]
-        })
-        if end == len(text):
-            break
-        start = end - overlap
-    return chunks
+- Basic Python, JSON, HTTP APIs, and Git.
+- GenAI fundamentals: [GenAI course](../genai/README.md).
+- Prompt structure and safety: [Prompt Engineering course](../prompt-engineering/README.md).
+- Embedding and vector database concepts: [Vector Database course](../vector-databases/README.md).
+- A Python virtual environment and pinned dependencies.
+- An approved embedding/generation provider or local model for experimentation.
+- A local or hosted vector store.
+- Synthetic or public documents for initial work.
 
-print(make_chunks("RAG retrieves evidence. " * 20, "guide-01"))
-```
-Use case: index an internal user guide and later cite the right section. Do not discard metadata when creating vectors.
-Example — construct a grounded prompt
-The model receives the user's question and retrieved passages. Ask it to say when the passages do not contain the answer.
-```python
-def build_rag_prompt(question: str, passages: list[dict]) -> str:
-    evidence = "\n\n".join(
-        f"Source {item['document_id']}: {item['text']}"
-        for item in passages
-    )
-    return (
-        "Answer using only the evidence below. "
-        "If it is insufficient, say so. Include source IDs.\n\n"
-        f"Evidence:\n{evidence}\n\nQuestion: {question}"
-    )
-```
-Use case: a developer assistant answers from a repository's documentation and points to the source document used.
+Never commit provider keys, private company documents, customer data, or production logs.
 
-## Mini-project
-Build a Knowledge Assistant over public or synthetic documents. Ingest Markdown files, preserve headings and source IDs, chunk content, embed and index it, retrieve passages, enforce user access filters, and generate answers with citations. Add tests for missing evidence and stale documents.
+## How to study each lesson
 
-## Safety, quality, and cost
-- Filter by document permissions before returning chunks to a user; do not rely on the model to enforce access.
-- Retrieved documents can contain prompt injection. Treat their text as untrusted evidence, not instructions.
-- Measure retrieval recall/precision and answer groundedness separately.
-- Plan for document updates, deletions, duplicate ingestion, and embedding-model migrations.
-- Avoid sending confidential documents to unapproved embedding or model services.
+1. Read the plain-English explanation before using a framework.
+2. Draw the indexing or query flow in your own words.
+3. Type and run the example, checking the expected output.
+4. Use a small, known document set and labelled questions.
+5. Complete the exercise and self-check.
+6. Record model, embedding, parser, chunker, and database versions.
+7. Inspect failed cases before changing parameters or prompts.
 
-## Suggested practice routine
-1. Read one section and explain the idea in your own words.
-2. Type the example instead of copying it blindly.
-3. Change one input and predict the output before running it.
-4. Test an invalid input and inspect the error.
-5. Complete the exercise and record what you learned.
+## Core engineering principles
 
-## References
-- OpenAI file search: https://platform.openai.com/docs/guides/tools-file-search
-- OpenAI embeddings: https://platform.openai.com/docs/guides/embeddings
-- OWASP LLM Top 10: https://genai.owasp.org/llm-top-10/
+- Preserve source IDs, version, heading/page, and access metadata through every stage.
+- Start with a simple baseline before adding hybrid search or reranking.
+- Tune chunking, top-k, and filters using representative questions.
+- Evaluate retrieval separately from answer groundedness and citation quality.
+- Permit a clear abstention when evidence is insufficient.
+- Enforce user and tenant permissions before restricted chunks reach the model.
+- Treat retrieved content and tool outputs as untrusted data.
+- Make ingestion repeatable, idempotent, incremental, and deletion-aware.
+- Track index and embedding model versions; plan safe migrations.
+- Measure quality, latency, cost, and freshness continuously.
 
-Documentation and APIs change. Check the linked official documentation for current commands, SDKs, model availability, versions, and pricing before using an example in a real project.
+## How this course connects to other tracks
 
-## Self-check
+- [GenAI](../genai/README.md) — model APIs, inference, and embeddings.
+- [Prompt Engineering](../prompt-engineering/README.md) — grounded prompt design and input boundaries.
+- [Vector Databases](../vector-databases/README.md) — indexes, metadata filters, and similarity search.
+- [Agentic AI](../agentic-ai/README.md) — use retrieval as a controlled agent tool.
+- [MCP](../mcp/README.md) — expose approved retrieval capabilities through a standard protocol.
+- [LLM Evaluation](../llm-evaluation/README.md) — build retrieval and answer evaluation datasets.
+- [Docker](../docker/README.md) and [Azure](../azure/README.md) — package, deploy, and operate the service.
 
-1. Why is RAG useful when an LLM does not know a private document?
-2. Why should chunks retain source IDs, page/heading metadata, and version?
-3. What is the difference between retrieval quality and answer quality?
-4. Why must access filters run before private chunks are returned?
-5. What should the assistant say when retrieved evidence is insufficient?
-6. Why can prompt injection inside a document be dangerous?
+## Official references
 
-## Practice checklist
+- [OpenAI embeddings guide](https://platform.openai.com/docs/guides/embeddings)
+- [OpenAI file search guide](https://platform.openai.com/docs/guides/tools-file-search)
+- [OpenAI retrieval guide](https://platform.openai.com/docs/guides/retrieval)
+- [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/)
+- [OpenTelemetry documentation](https://opentelemetry.io/docs/)
 
-- [ ] I can ingest a sample document and preserve its source metadata.
-- [ ] I can explain chunk size and overlap trade-offs.
-- [ ] I can retrieve relevant chunks and display their source IDs.
-- [ ] I can build an answer prompt that requires evidence and admits missing information.
-- [ ] I have tested no-answer, stale-document, and permission-filter cases.
+Provider APIs, model names, pricing, and vector database capabilities change. Confirm current documentation and pin versions before using a sample in a real project.
 
-**Next:** Learn agentic AI and expose retrieval as a read-only tool.
-
+This is a learning track, not a production certification. Production use requires security review, data governance approval, representative evaluation, operational ownership, and deployment validation.
