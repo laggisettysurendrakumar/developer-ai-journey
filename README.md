@@ -25,7 +25,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 ### Phase 4 — Build controlled agents and integrations
 
 8. **Agentic AI** — [Start the 14-lesson Agentic AI course](study-materials/agentic-ai/README.md). Progress from the manual agent loop and validated tools to memory, planning, multi-agent patterns, safety, evaluation, the OpenAI Agents SDK, and a developer-support capstone.
-9. **MCP** — [Study Model Context Protocol](study-materials/mcp/README.md). Connect model hosts to external tools and resources through a defined protocol.
+9. **MCP** — [Start the 14-lesson MCP beginner-to-expert course](study-materials/mcp/README.md). Learn protocol fundamentals, lifecycle, tools/resources/prompts, Python servers, client discovery, stdio and Streamable HTTP, authentication, security, resilience, testing, .NET integration, production operations, enterprise governance, and a developer knowledge assistant capstone.
 10. **LLM evaluation and observability** — [Start the 14-lesson LLM Evaluation Engineering course](study-materials/llm-evaluation/README.md). Learn evaluation datasets, human rubrics, deterministic tests, metrics, LLM judges, RAG and agent evaluation, red teaming, experiment tracking, CI quality gates, and production monitoring.
 
 ### Phase 5 — Package, deploy, and operate
@@ -126,7 +126,7 @@ Build a **Developer Knowledge Assistant** in small increments:
 | Vector databases | [Vector DB](study-materials/vector-databases/README.md) | Embedding storage and search |
 | RAG | [RAG](study-materials/rag/README.md) | Document retrieval and grounded answers |
 | Agentic AI | [Agents](study-materials/agentic-ai/README.md) | Tools, state, orchestration and safety |
-| MCP | [MCP](study-materials/mcp/README.md) | Standard tool/resource integration |
+| MCP | [14-lesson MCP course](study-materials/mcp/README.md) | Protocol, server/client development, security, operations, .NET integration |
 | LLM evaluation | [Evaluation](study-materials/llm-evaluation/README.md) | Quality, traces, metrics, regression tests |
 | Docker | [Docker](study-materials/docker/README.md) | Container packaging and runtime |
 | Kubernetes | [Kubernetes](study-materials/kubernetes/README.md) | Cluster deployment and operations |
