@@ -1,192 +1,115 @@
-# Terraform for Reproducible AI Infrastructure — Beginner Course
+# Terraform — Beginner to Expert Infrastructure as Code Learning Path
 
-I use Terraform to describe infrastructure in code. Instead of clicking through a cloud portal and trying to remember every setting, I can review a configuration, preview a plan, and apply a controlled change.
+I use this course to learn Terraform from first principles and apply it to real cloud infrastructure, especially Azure. The goal is to understand not only HCL syntax, but also safe state management, reusable modules, identity, networking, CI/CD, drift, and production operations.
 
-## Prerequisites and learning order
+## Who this course is for
 
-Understand basic cloud concepts, Linux/CLI, identity, networking, and Docker. Start with a local lab before creating chargeable cloud resources.
+Developers and cloud engineers who know basic command-line usage and want to move from manual portal-based provisioning to repeatable, reviewed infrastructure changes. Basic cloud and networking knowledge helps, but the course starts with plain-English foundations.
 
-1. Understand Infrastructure as Code (IaC) and Terraform workflow.
-2. Install Terraform and learn providers, resources, and data sources.
-3. Use variables, locals, and outputs.
-4. Understand state and resource addresses.
-5. Use modules and environment-specific values.
-6. Learn remote backend, locking, and state protection.
-7. Read plans, understand drift, and import resources.
-8. Add formatting, validation, policy checks, and CI review.
-9. Design a small non-production AI application environment.
+## What I should be able to do by the end
 
-## 1. Infrastructure as Code in plain English
+- Explain Infrastructure as Code and the Terraform workflow.
+- Install Terraform, use its CLI, and organise a project.
+- Write HCL using providers, resources, data sources, variables, locals, and outputs.
+- Use expressions, loops, and lifecycle behaviour safely.
+- Understand resource addresses and state.
+- Build reusable modules with clear interfaces.
+- Configure remote state, locking, and team workflows.
+- Design dev/test/prod state and environment boundaries.
+- Provision basic Azure resources with approved identity.
+- Apply networking, identity, and security principles.
+- Detect drift, import existing resources, refactor addresses, and recover state.
+- Build a controlled CI/CD pipeline with plan review and production approval.
+- Complete an Azure platform foundation capstone.
 
-Infrastructure includes cloud resources an application depends on: networks, app hosting, storage, identities, databases, monitoring, and more.
+## Learning path
 
-Infrastructure as Code means describing those resources in files. Terraform compares declared configuration with its state and the real infrastructure, then proposes changes.
+| Lesson | Topic | Outcome |
+|---:|---|---|
+| 01 | [Terraform and Infrastructure as Code fundamentals](01-terraform-and-infrastructure-as-code-fundamentals.md) | Understand IaC and the Terraform workflow |
+| 02 | [Installation, CLI workflow, and project layout](02-installation-cli-workflow-and-project-layout.md) | Set up a safe local Terraform lab |
+| 03 | [HCL syntax, providers, resources, and data sources](03-hcl-syntax-providers-resources-and-data-sources.md) | Write and understand basic configuration |
+| 04 | [Variables, locals, outputs, and type constraints](04-variables-locals-outputs-and-type-constraints.md) | Make configuration reusable and validated |
+| 05 | [Expressions, functions, loops, and dynamic blocks](05-expressions-functions-loops-and-dynamic-blocks.md) | Build data-driven configuration |
+| 06 | [Terraform state, resource addresses, and lifecycle](06-terraform-state-resource-addresses-and-lifecycle.md) | Understand how Terraform tracks infrastructure |
+| 07 | [Modules, reuse, and module composition](07-modules-reuse-and-module-composition.md) | Create reusable infrastructure components |
+| 08 | [Remote backends, locking, and team workflows](08-remote-backends-locking-and-team-workflows.md) | Collaborate safely with shared state |
+| 09 | [Workspaces and environment strategy](09-terraform-workspaces-and-environment-strategy.md) | Separate environment configuration and state |
+| 10 | [Azure infrastructure with Terraform foundations](10-azure-infrastructure-with-terraform-foundations.md) | Configure the AzureRM provider and basic resources |
+| 11 | [Azure networking, identity, and security](11-azure-networking-identity-and-security-with-terraform.md) | Design secure cloud foundations |
+| 12 | [Drift, import, refactoring, and state recovery](12-drift-import-refactoring-and-state-recovery.md) | Maintain existing infrastructure safely |
+| 13 | [Terraform testing, policy, and CI/CD workflows](13-terraform-testing-policy-and-cicd-workflows.md) | Automate validation, review, and controlled apply |
+| 14 | [Capstone: Azure platform foundation with Terraform](14-capstone-azure-platform-foundation-with-terraform.md) | Design and implement a complete learning environment |
 
-## 2. Core Terraform terms
+## Suggested learning pace
 
-| Term | Plain-English meaning |
-|---|---|
-| Provider | Plugin that talks to a platform such as Azure or AWS |
-| Resource | Infrastructure object Terraform manages |
-| Data source | Reads information about an existing object |
-| Variable | Input value that makes configuration reusable |
-| Local | Named expression used inside configuration |
-| Output | Value Terraform displays or makes available after operations |
-| State | Records Terraform's mapping between configuration and real objects |
-| Module | Reusable package of Terraform configuration |
-| Backend | Where Terraform state is stored |
+A first pass can take 4–6 weeks at 1–2 focused hours per day. Spend extra time on state, modules, Azure identity, and plan review. Terraform is an operational tool: understanding the consequences of a plan is more important than memorising every command.
 
-## 3. Safe local lab — create a local file
+## Prerequisites and environment
 
-This example uses the local provider. It does not provision cloud infrastructure and is a safe way to learn the Terraform lifecycle in a disposable folder.
+- Basic command-line and Git knowledge.
+- Basic cloud concepts: subscription, resource group, identity, networking, storage.
+- Terraform CLI installed from the official source.
+- A text editor such as VS Code.
+- Start with the local provider lab before provisioning cloud resources.
+- An approved Azure sandbox subscription and budget for cloud exercises.
+- A dedicated learning directory and Git repository.
 
-Create main.tf:
+Do not use production subscriptions or company resources for practice without explicit approval. Cloud resources may incur costs.
 
-```hcl
-terraform {
-  required_providers {
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.5"
-    }
-  }
-}
+## Recommended study method
 
-provider "local" {}
+1. Read each lesson before typing commands.
+2. Use the local provider lab to learn the lifecycle without cloud cost.
+3. Run `terraform fmt` and `terraform validate` regularly.
+4. Always inspect `terraform plan` before an apply.
+5. Keep configuration in Git but exclude state, plan files, and secret values.
+6. Record Terraform, provider, and module versions.
+7. Use a separate sandbox state and identity for practice.
+8. Complete the exercise and self-check before moving forward.
 
-variable "note_content" {
-  type        = string
-  description = "Text to put in the sample file."
-  default     = "Created by a Terraform learning lab."
-}
+## Essential safety rules
 
-resource "local_file" "course_note" {
-  filename = "generated-note.txt"
-  content  = var.note_content
-}
+- Never commit Terraform state, state backups, plan files, secrets, or real tfvars containing credentials.
+- Protect remote state with encryption, access control, locking, and recovery procedures.
+- Use least-privilege identities and prefer approved workload identity/managed identity patterns.
+- Never blindly apply a plan that contains unexpected deletion, replacement, public exposure, or role changes.
+- Do not disable state locking to resolve a pipeline issue.
+- Do not force-unlock or manually edit state without confirming the cause and following a recovery procedure.
+- Keep production apply behind a protected approval workflow.
+- Use explicit budgets, tags, and isolated resource groups for learning.
+- Verify what a destroy operation will remove before confirming it.
 
-output "created_path" {
-  value = local_file.course_note.filename
-}
-```
+## Azure focus
 
-**What it does:** Declares a local provider, an input variable, a file resource, and an output.
+The advanced lessons use Azure examples to make Terraform useful in a practical cloud engineering path. The course covers:
+- AzureRM provider and resource groups,
+- subscription and tenant context,
+- identity and least privilege,
+- VNet/subnet and private connectivity design,
+- storage and Key Vault integration,
+- monitoring and diagnostic settings,
+- remote state in Azure Storage,
+- CI identity and approval gates.
 
-**Why useful?** The same concepts apply to cloud resources, but this lab avoids creating billable infrastructure.
+Provider versions and resource arguments evolve. Pin reviewed versions and use the official provider documentation for the version in your project.
 
-Run from the folder containing main.tf:
+## How this course connects to other tracks
 
-```bash
-terraform init
-terraform fmt
-terraform validate
-terraform plan
-```
+- [Linux](../linux/README.md) — CLI and operating-system foundations.
+- [Docker](../docker/README.md) — package and run applications.
+- [Kubernetes](../kubernetes/README.md) — deploy and operate workloads.
+- [Azure](../azure/README.md) — Azure identity, networking, hosting, and monitoring.
+- [MCP](../mcp/README.md) and [RAG](../rag/README.md) — examples of workloads that can use Terraform-managed infrastructure.
 
-Review the plan carefully before applying:
+## Official references
 
-```bash
-terraform apply
-```
+- [Terraform documentation](https://developer.hashicorp.com/terraform/docs)
+- [Terraform tutorials](https://developer.hashicorp.com/terraform/tutorials)
+- [Terraform language](https://developer.hashicorp.com/terraform/language)
+- [Terraform CLI](https://developer.hashicorp.com/terraform/cli)
+- [Terraform state](https://developer.hashicorp.com/terraform/language/state)
+- [Azure Terraform documentation](https://learn.microsoft.com/azure/developer/terraform/)
+- [AzureRM provider documentation](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
 
-Terraform asks for confirmation unless an approval option is supplied. For learning, read the proposed change before confirming.
-
-## 4. Variables and environment separation
-
-Variables make values configurable rather than hardcoding them repeatedly.
-
-```hcl
-variable "environment" {
-  type        = string
-  description = "Deployment environment"
-  default     = "dev"
-}
-
-locals {
-  app_name = format("knowledge-assistant-%s", var.environment)
-}
-
-output "app_name" {
-  value = local.app_name
-}
-```
-
-A deployment pipeline can supply approved values for dev, test, and prod. Avoid copying a production configuration into a developer laptop.
-
-## 5. Understand Terraform state
-
-State maps Terraform resource addresses to real objects. It helps Terraform understand what it already manages.
-
-Important rules:
-- State may contain sensitive values.
-- Do not commit state files or backups.
-- Protect state with encryption, access control, and locking.
-- Use a remote backend for team environments.
-- Back up state and test recovery.
-- Do not edit state JSON manually as a normal repair technique.
-
-State is not simply a cache; careless state changes can lead Terraform to propose destructive replacements or lose track of resources.
-
-## 6. Understand plan, apply, and destroy
-
-- terraform plan previews what Terraform intends to do.
-- terraform apply executes planned changes after approval.
-- terraform destroy proposes removing managed resources.
-
-Read the plan before every apply. A plan can replace a resource and cause downtime or data loss even when the configuration change looks small. Never destroy shared or production resources without an approved change and recovery plan.
-
-## 7. Modules
-
-A module groups resources and inputs into a reusable unit. For example, a reviewed networking module might be reused by several app environments. Keep modules small and document their inputs, outputs, assumptions, and ownership.
-
-## 8. Remote state and team workflow
-
-For a team, use an approved backend such as Azure Storage remote state. Configure authentication through an approved identity, not a hardcoded account key. Ensure locking and consistency are supported by the chosen backend and Terraform version.
-
-A safe workflow:
-1. Format and validate configuration.
-2. Run security and policy checks.
-3. Generate a plan in CI.
-4. Publish the plan for review.
-5. Approve the exact environment and change.
-6. Apply using a least-privilege deployment identity.
-7. Record the result and verify the application.
-
-## 9. Drift and import
-
-Drift means the real infrastructure no longer matches the declared configuration/state. It may happen because someone changed a setting outside Terraform or an external system changed it.
-
-Do not blindly apply a plan when drift appears. Understand why it happened, decide which source should be authoritative, and reconcile configuration and state through the documented Terraform workflow. Import brings an existing resource under Terraform management; it does not automatically create a complete configuration for that resource.
-
-## 10. Practice project — AI application environment
-
-Design a non-production Terraform environment for a Developer Knowledge Assistant:
-1. Resource group and naming conventions.
-2. Application hosting resource.
-3. Managed identity.
-4. Document storage.
-5. Monitoring.
-6. Network boundaries.
-7. Secret manager integration.
-8. Tags, outputs, and cost ownership.
-9. Remote state design.
-10. CI plan/review/apply workflow.
-
-Start with terraform plan and a design review. Provision cloud resources only in an approved subscription with a budget.
-
-## Self-check
-
-1. What is the difference between a provider and a resource?
-2. Why does Terraform need state?
-3. What should I review in a plan?
-4. Why should state not be committed to Git?
-5. Why is remote state access a security boundary?
-
-## References
-
-- Terraform tutorials: https://developer.hashicorp.com/terraform/tutorials
-- Terraform language: https://developer.hashicorp.com/terraform/language
-- Terraform state: https://developer.hashicorp.com/terraform/language/state
-- AzureRM provider: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
-
-Terraform and provider versions evolve. Pin reviewed versions and verify resource arguments against the provider documentation for your version.
+Terraform CLI, providers, and cloud APIs change. Verify the current documentation and pin versions before implementation. This learning track is not a production certification; production use requires security review, tested recovery, subscription governance approval, and operational ownership.
