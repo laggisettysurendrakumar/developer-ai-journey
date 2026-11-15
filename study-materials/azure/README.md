@@ -1,159 +1,116 @@
-# Azure for GenAI and Agentic Applications — Beginner to Deployment
+# Azure Engineering — Beginner to Advanced
 
-I use Azure to host, secure, monitor, and operate AI-enabled applications. This track connects Python APIs, models, storage, identity, networking, and infrastructure into a production-minded design. It is not a guide to creating every Azure service; choose services based on requirements, cost, and organisational standards.
+This track builds a practical understanding of Microsoft Azure, starting with cloud concepts and finishing with the design, deployment, security, and operation of a production-minded application.
 
-## Prerequisites and learning order
+The aim is to understand not just how to create an Azure resource, but why to choose it, how an application connects to it, how to secure it, what happens when it fails, and how to keep it observable and cost-effective.
 
-Understand Python APIs, HTTP, environment variables, Linux, Docker, and basic cloud concepts. Familiarity with Azure fundamentals and developer services is useful.
+## Who this learning path is for
 
-1. Understand subscriptions, resource groups, regions, and resource hierarchy.
-2. Learn Microsoft Entra ID, managed identities, and Azure RBAC.
-3. Choose an application hosting model: App Service, Container Apps, or AKS.
-4. Understand Azure AI model/service deployments, quotas, and data governance.
-5. Store documents and application data securely.
-6. Use Key Vault and managed identity for secrets and service access.
-7. Add logs, traces, metrics, and alerts.
-8. Design networking and private access.
-9. Automate infrastructure and deployments.
-10. Deploy and operate a non-production AI assistant with cost and recovery controls.
+This material starts from the basics and gradually moves to architecture and operations. Examples are especially relevant to developers building ASP.NET Core APIs, containerised services, and GenAI/Agentic AI applications.
 
-## 1. Azure in plain English
+Prior Azure experience is not required. Basic programming, HTTP, Git, and command-line familiarity will help. Azure fundamentals certification knowledge is useful but not mandatory.
 
-Azure is Microsoft's cloud platform. An organisation can provision compute, network, storage, identity, databases, and AI services on demand instead of buying and maintaining every server.
+## How to study each lesson
 
-| Term | Plain-English meaning |
-|---|---|
-| Tenant | Identity boundary associated with Microsoft Entra ID |
-| Subscription | Billing and management boundary for Azure resources |
-| Resource group | Logical container for related resources |
-| Region | Geographic Azure location where a resource is deployed |
-| Resource | An individual Azure service instance |
-| RBAC | Role-based access control: which identity can do what at a scope |
-| Managed identity | Azure-managed identity an application can use without keeping a client secret in code |
+For every lesson:
+1. Read the plain-English explanation before running commands.
+2. Understand the problem the Azure service is intended to solve.
+3. Draw the service or request flow in your own words.
+4. Run only the lab steps in a subscription where you are authorised to create resources.
+5. Check the cost and clean up disposable resources after the lab.
+6. Answer the self-check questions without looking at the lesson.
+7. Write down decisions, assumptions, and troubleshooting observations.
 
-A resource may be unavailable in a particular region or subscription. Verify service availability, quotas, and policy before designing a solution.
+Do not deploy learning examples in a production subscription. Some labs create billable resources. Check pricing, permissions, quotas, regional availability, and organisational policies first.
 
-## 2. Identity: managed identity and least privilege
+## Learning roadmap
 
-Applications need identities to call storage, Key Vault, or AI services. Avoid storing client secrets in code or configuration when a supported managed identity can be used.
-
-Conceptual Python example:
-
-```python
-import os
-
-app_environment = os.getenv("APP_ENV", "development")
-service_name = os.getenv("SERVICE_NAME", "knowledge-assistant")
-
-print(f"Starting {service_name} in {app_environment}")
-```
-
-The app reads non-secret configuration from the environment. In Azure, grant a managed identity only the roles and scopes it needs. Managed identity removes the need to manage an app secret for supported authentication flows, but it does not remove the need for authorisation.
-
-## 3. Choose an application hosting model
-
-| Service | When it can fit | What to consider |
+| Stage | Lessons | What I learn |
 |---|---|---|
-| Azure App Service | Web apps and APIs with a managed platform experience | Runtime support, networking, scale, platform constraints |
-| Azure Container Apps | Containerised APIs, background workers, event-driven workloads | Scale rules, revisions, environment, networking |
-| Azure Kubernetes Service (AKS) | More control over Kubernetes workloads and cluster ecosystem | Cluster operations, upgrades, networking, security, cost |
+| Beginner | 01–02 | Cloud basics, Azure hierarchy, CLI, Entra ID, RBAC, managed identities, governance |
+| Application developer | 03–06 | Compute, hosting, networking, storage, databases, messaging, Key Vault, .NET configuration |
+| Operations and DevOps | 07–09 | Monitoring, KQL, alerts, pipelines, deployment strategies, Terraform |
+| Advanced engineering | 10–12 | Security, threat modelling, reliability, backup/DR, cost optimisation |
+| AI workloads and architecture | 13–14 | Azure AI, RAG, agents, Well-Architected design, production capstone |
 
-Do not choose AKS just because the application uses AI. Use the simplest hosting model that meets scaling, networking, compliance, and operational requirements.
+## Lesson index
 
-## 4. Model services and Azure AI
+### Beginner — Understand Azure and identity
 
-Azure provides managed AI services, including Azure OpenAI and Azure AI Foundry capabilities. Before choosing a deployment, check:
-- Which model is available to the subscription and target region.
-- Deployment name/model version and quota.
-- Authentication method and endpoint.
-- Data handling, retention, and compliance requirements.
-- Price, token usage, rate limits, and throughput.
-- Content safety and responsible AI requirements.
+1. [Cloud and Azure Foundations](01-cloud-and-azure-foundations.md) — cloud models, tenants, subscriptions, resource groups, regions, tags, Azure CLI, and a safe first lab.
+2. [Identity, RBAC and Governance](02-identity-rbac-and-governance.md) — Entra ID, users, groups, app identities, managed identities, role assignments, Azure Policy, and resource locks.
 
-Service names, portal experiences, API versions, model availability, and regional quota can change. Use current Microsoft documentation for the exact deployment and SDK path.
+### Application developer — Build and connect workloads
 
-## 5. Store knowledge documents
+3. [Compute and Application Hosting](03-compute-and-app-hosting.md) — Virtual Machines, App Service, Functions, Container Apps, AKS, and choosing a hosting model.
+4. [Networking and Private Connectivity](04-networking-and-private-connectivity.md) — VNets, subnets, IP ranges, NSGs, DNS, private endpoints, routing, and troubleshooting.
+5. [Storage, Databases and Messaging](05-storage-databases-and-messaging.md) — Blob Storage, Azure SQL, Cosmos DB, queues, Service Bus, Event Grid, Event Hubs, and reliable consumers.
+6. [Key Vault, Secrets and Configuration](06-key-vault-and-configuration.md) — Key Vault, managed identity, secret rotation, environment settings, and ASP.NET Core configuration precedence.
 
-A RAG assistant usually needs a source for documents and metadata. Azure Storage can hold files, while a search or vector service indexes content for retrieval.
+### Operations and DevOps — Deploy and observe
 
-Think about file layout, private access, identity-based access, document IDs, versions, access groups, retention, deletion, backups, and data classification.
+7. [Monitoring, Logging and Alerts](07-monitoring-logging-and-alerts.md) — Azure Monitor, Application Insights, metrics, logs, traces, KQL, alerts, and incident investigation.
+8. [Deployment, CI/CD and Azure DevOps](08-deployment-cicd-and-devops.md) — pipelines, secure deployment identity, artifacts, approvals, slots, rolling, blue/green, and canary releases.
+9. [Infrastructure as Code with Terraform](09-infrastructure-as-code-terraform.md) — providers, resources, state, plans, modules, remote backend, and CI/CD integration.
 
-The retrieval service must filter documents by the current user's permissions before passages are returned to the model.
+### Advanced engineering — Protect, recover and optimise
 
-## 6. Key Vault and secrets
+10. [Azure Security and Defence in Depth](10-security-networking-and-defence.md) — shared responsibility, secure identity, network/data protection, Defender for Cloud, governance, and threat modelling.
+11. [Reliability, Backup and Disaster Recovery](11-reliability-backup-and-disaster-recovery.md) — availability, RTO/RPO, retries, circuit breakers, backups, failover, runbooks, and recovery tests.
+12. [Cost Management and Optimisation](12-cost-management-and-optimisation.md) — pricing models, estimates, budgets, right-sizing, cost allocation, and GenAI cost drivers.
 
-Key Vault is designed to store and control access to secrets, keys, and certificates. Prefer managed identity to access it from an Azure-hosted app where supported.
+### AI workloads and architecture — Apply the platform
 
-Do not put API keys in Git, bake credentials into container images, print tokens into application logs, or grant every application identity broad secret-read permissions.
+13. [Azure AI Foundry and Generative AI Workloads](13-azure-ai-foundry-and-genai-platform.md) — model deployments, RAG, embeddings, search, agents, tool permissions, safety, and evaluation.
+14. [Architecture, Well-Architected Design and Capstone](14-architecture-well-architected-and-capstone.md) — five architecture pillars, decision records, production readiness, and a Developer Knowledge Assistant.
 
-Use the smallest required access scope and rotate credentials according to organisational policy.
+## Recommended hands-on sequence
 
-## 7. Monitoring with Azure Monitor and Application Insights
+Build one small application throughout the course rather than creating unrelated demos:
 
-A production AI app needs more than a server-is-up check. Observe request count, error rate, latency, dependency calls, timeouts, model request duration, token usage, retrieval duration, tool outcomes, CPU, memory, queue depth, restarts, cost, and quota alerts.
+- Start with an ASP.NET Core Web API running locally.
+- Deploy it to an appropriate Azure hosting service.
+- Add Microsoft Entra authentication and least-privilege service identity.
+- Connect private or appropriately restricted storage and a database.
+- Move required secrets to Key Vault.
+- Add background processing through a queue when the workload needs it.
+- Add Application Insights and useful alerts.
+- Build the infrastructure with Terraform.
+- Deploy through a CI/CD pipeline using secure authentication.
+- Add recovery, security, and cost controls.
+- Extend the application into a document-grounded AI assistant.
 
-Use correlation IDs to connect a web request with model calls, retrieval, and tools. Avoid collecting sensitive prompts or documents unless there is a reviewed need and appropriate redaction and retention controls.
+## Suggested pace
 
-## 8. Networking
+A steady schedule might take 6–10 weeks, depending on how much hands-on time is available and whether an Azure subscription is ready. Read the material first, then spend more time on the labs and capstone. The goal is understanding and evidence of working solutions, not rushing through service names.
 
-Decide whether an endpoint must be public or private. Consider inbound application access, outbound model/storage/search access, private endpoints and DNS, firewall rules, TLS certificates, workload identity, and egress controls.
+## Skills checklist
 
-A private endpoint alone does not configure every DNS, routing, and identity requirement. Test the full connectivity path.
+- [ ] Explain tenants, subscriptions, resource groups, regions, and zones.
+- [ ] Use Azure CLI and verify the active subscription.
+- [ ] Explain Entra ID, authentication, authorisation, RBAC, and managed identity.
+- [ ] Choose between App Service, Functions, Container Apps, VMs, and AKS.
+- [ ] Draw a VNet, subnet, DNS, NSG, and private endpoint design.
+- [ ] Select storage, relational data, NoSQL, and messaging services based on requirements.
+- [ ] Retrieve secrets safely and understand .NET configuration precedence.
+- [ ] Query telemetry and troubleshoot a failed request.
+- [ ] Build a CI/CD pipeline with approvals and rollback.
+- [ ] Provision infrastructure using Terraform and protect state.
+- [ ] Describe shared responsibility and threat-model an application.
+- [ ] Define and test RTO, RPO, backup, and recovery procedures.
+- [ ] Estimate and review application cost.
+- [ ] Design a secure RAG/agent application on Azure.
+- [ ] Present architecture decisions with trade-offs and operational evidence.
 
-## 9. Example architecture for a RAG assistant
+## Important notes
 
-```text
-User
-  |
-  v
-Web/API hosting (App Service or Container Apps)
-  |                 |
-  |                 +--> Managed identity --> Key Vault / Azure services
-  |
-  +--> Model service (approved deployment)
-  |
-  +--> Document storage --> ingestion/embedding pipeline
-  |
-  +--> Search/vector service --> retrieved chunks + source metadata
-  |
-  +--> Application Insights / Azure Monitor
-```
+Azure service capabilities, product names, SDKs, model availability, regional support, quotas, prices, and portal experiences change. Verify implementation details against current Microsoft documentation before deploying. Follow your organisation's identity, security, cost, and data-handling policies.
 
-This is a conceptual design. Exact services, network paths, identity roles, and model APIs depend on the Azure environment and security requirements.
+## Official reference hubs
 
-## 10. Practice project
-
-Deploy the Dockerised Developer Knowledge Assistant to a non-production Azure environment:
-1. Choose App Service or Container Apps and document why.
-2. Create an isolated resource group and naming/tagging standard.
-3. Configure managed identity.
-4. Deploy the model service in an approved region with suitable quota.
-5. Store sample documents in private storage.
-6. Configure search/retrieval and document permission filters.
-7. Store secrets in Key Vault or use identity-based authentication.
-8. Add Application Insights and alerts.
-9. Configure network access and TLS.
-10. Define a cost budget, token limits, rollback, and incident process.
-11. Manage resources with reviewed Terraform plans.
-
-Provision resources only in an authorised subscription and check pricing before deployment.
-
-## Self-check
-
-1. What is the difference between a tenant, subscription, and resource group?
-2. Why is managed identity preferable to a hardcoded service secret?
-3. When might Container Apps be simpler than AKS?
-4. Why should a RAG service filter documents before model generation?
-5. Which latency, reliability, and cost signals should an AI application monitor?
-
-## Official references
-
-- Azure Well-Architected Framework: https://learn.microsoft.com/azure/well-architected/
-- Managed identities: https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview
-- Azure OpenAI documentation: https://learn.microsoft.com/azure/ai-services/openai/
-- Azure AI Foundry: https://learn.microsoft.com/azure/ai-foundry/
-- Application Insights: https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview
-- Azure Container Apps: https://learn.microsoft.com/azure/container-apps/
-- Azure App Service: https://learn.microsoft.com/azure/app-service/
-
-Azure services, model availability, regions, quotas, SDKs, pricing, and portal experiences change. Confirm current details before deployment.
+- [Azure documentation](https://learn.microsoft.com/azure/)
+- [Azure Architecture Center](https://learn.microsoft.com/azure/architecture/)
+- [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
+- [Azure Cloud Adoption Framework](https://learn.microsoft.com/azure/cloud-adoption-framework/)
+- [Azure CLI reference](https://learn.microsoft.com/cli/azure/)
+- [Terraform on Azure](https://learn.microsoft.com/azure/developer/terraform/)
