@@ -31,7 +31,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 ### Phase 5 — Package, deploy, and operate
 
 11. **Docker** — [Start the 14-lesson Docker engineering course](study-materials/docker/README.md). Progress from container basics through Dockerfiles, .NET container builds, networking, volumes, Compose, registries, security, BuildKit, CI/CD, and production readiness.
-12. **Kubernetes** — [Study Kubernetes](study-materials/kubernetes/README.md). Operate container workloads, probes, configuration, scaling, and observability.
+12. **Kubernetes** — [Start the 14-lesson Kubernetes engineering and production-support course](study-materials/kubernetes/README.md). Progress from cluster fundamentals through workloads, networking, storage, security, Helm, observability, upgrades, incident triage, runbooks, and SRE practices.
 13. **Terraform** — [Study Terraform](study-materials/terraform/README.md). Provision repeatable infrastructure with reviewed plans and secure state.
 14. **Azure** — [Start the 14-lesson Azure engineering course](study-materials/azure/README.md). Progress from cloud and identity foundations through networking, compute, data, security, DevOps, Terraform, reliability, cost management, Azure AI, and a production-minded capstone.
 
