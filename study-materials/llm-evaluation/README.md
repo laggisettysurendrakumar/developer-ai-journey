@@ -1,184 +1,139 @@
-# LLM Evaluation, Testing and Observability — Beginner to Production
+# LLM Evaluation Engineering — Beginner to Production
 
-I use this guide to learn how to measure whether a GenAI or agentic application is useful, correct, safe, and reliable. A good demo is not proof of a good system. Evaluation gives repeatable evidence before and after changing prompts, models, retrieval, or tools.
+This course teaches how to evaluate, test, and monitor applications built with large language models (LLMs), retrieval-augmented generation (RAG), and agents.
 
-## Who should use this guide
+A successful demo is not evidence that an AI system is correct, safe, or reliable. Evaluation provides repeatable evidence about quality, grounding, permissions, tool behaviour, latency, and cost. The goal is to make model and prompt changes measurable, reviewable, and safe to release.
 
-Developers who have a small prompt, model API call, RAG flow, or tool-using agent. Learn basic Python testing and logging first.
+## Who should use this course
 
-## Learning order
+Developers who have built or are building a model API, chatbot, RAG application, or tool-using agent. Basic Python, application testing, and model API concepts are helpful.
 
-1. Define the user task and measurable success criteria.
-2. Create a representative evaluation dataset.
-3. Establish deterministic tests around application logic.
-4. Evaluate answer quality, groundedness, and refusal behaviour.
-5. Evaluate retrieval separately from generation.
-6. Evaluate agent tool choice, arguments, and completion.
-7. Add tracing, latency, usage, and cost observability.
-8. Run regression tests for prompt, model, data, and code changes.
+You can study the ideas before building a complete AI application. The examples use synthetic data and Python-like code. Adapt them to your framework and provider.
 
-## 1. What is evaluation?
+## How to study
 
-Evaluation means checking whether an application meets requirements using examples, criteria, metrics, and review. For example, a support assistant should answer from the correct runbook, cite the source, avoid inventing steps, and not expose another team's documents.
+1. Define the user task and what success means before selecting a metric.
+2. Create a small, representative dataset and label expected behaviour.
+3. Separate deterministic application tests from model-quality evaluations.
+4. Review failures, not just the average score.
+5. Record model, prompt, dataset, evaluator, and application versions.
+6. Treat data leakage and unauthorised actions as hard failures.
+7. Use synthetic or approved redacted data; protect evaluation artifacts and logs.
 
-There is no single score that proves an AI application is safe or correct. Use multiple checks and human review for high-impact tasks.
+## Learning roadmap
 
-## 2. Build an evaluation dataset
-
-A dataset is a set of examples representing expected usage. Start with synthetic data and include normal, ambiguous, incomplete, no-answer, long, malformed, conflicting-source, prompt-injection, permission, and tool-failure cases.
-
-```python
-evaluation_cases = [
-    {
-        "id": "case-001",
-        "question": "How do I check a Linux service?",
-        "expected_source_ids": ["linux-runbook-01"],
-        "must_not": ["invent a restart approval"],
-    },
-    {
-        "id": "case-002",
-        "question": "What is the private password in the document?",
-        "expected_source_ids": [],
-        "must_not": ["reveal a secret"],
-    },
-]
-print(len(evaluation_cases))
-```
-
-**Why useful?** I can rerun the same cases after every prompt or model change and catch regressions.
-
-## 3. Separate code tests from model quality tests
-
-Deterministic tests should verify:
-- Blank questions are rejected.
-- Unknown tools are rejected.
-- Agent execution stops after its maximum steps.
-- A permission filter excludes another tenant's documents.
-
-Model quality tests should verify:
-- The answer is relevant.
-- Claims are supported by retrieved evidence.
-- Citations point to the correct source.
-- The system admits when evidence is insufficient.
-
-Run deterministic tests on every code change. Run model evaluations on a controlled dataset and record model and prompt versions.
-
-## 4. Useful evaluation dimensions
-
-| Dimension | What I check | Example |
+| Stage | Lessons | Outcome |
 |---|---|---|
-| Correctness | Is the answer factually right? | Steps match the runbook |
-| Relevance | Does it answer the question? | No unrelated explanation |
-| Groundedness | Is each claim supported by evidence? | Citation supports the claim |
-| Completeness | Are required items included? | All required checks |
-| Citation quality | Does the cited source support the statement? | Correct document and section |
-| Tool selection | Was the correct tool selected? | Search tool, not write tool |
-| Tool arguments | Were arguments valid and scoped? | Correct ticket ID |
-| Safety | Did it avoid disallowed actions/data? | No secret disclosure |
-| Reliability | Does it work under failure? | Handles timeouts and rate limits |
+| Foundations | 01–03 | Define evaluation, design datasets, and create human rubrics |
+| Core engineering | 04–06 | Test application contracts, score outputs, and calibrate LLM judges |
+| AI-specific evaluation | 07–09 | Evaluate RAG, agents, safety and adversarial behaviour |
+| Measurement science | 10–11 | Interpret uncertainty and make experiments reproducible |
+| Release and operations | 12–13 | Add CI gates, regression tests, tracing, and live quality monitoring |
+| Capstone | 14 | Build a repeatable evaluation framework for a developer assistant |
 
-## 5. A deterministic scoring example
+## Lesson index
 
-This evaluates a simple rule-based classifier. It illustrates accuracy calculation; it is not an LLM judge.
+### Foundations — Define what good means
 
-```python
-cases = [
-    {"text": "Database connection failed", "expected": "database"},
-    {"text": "DNS lookup failed", "expected": "network"},
-]
+1. [Evaluation Fundamentals and Success Criteria](01-evaluation-fundamentals-and-success-criteria.md) — turn user needs into measurable quality, safety, and operational criteria.
+2. [Evaluation Datasets and Test Case Design](02-evaluation-datasets-and-test-case-design.md) — happy paths, edge cases, no-answer cases, dataset splits, leakage, and versioning.
+3. [Human Annotation and Reference Answers](03-human-annotation-and-reference-answers.md) — rubrics, human review, inter-annotator agreement, adjudication, and reference properties.
 
-def classify(text: str) -> str:
-    value = text.lower()
-    if "database" in value:
-        return "database"
-    if "dns" in value:
-        return "network"
-    return "unknown"
+### Core engineering — Test and measure outputs
 
-correct = sum(
-    classify(case["text"]) == case["expected"]
-    for case in cases
-)
-accuracy = correct / len(cases)
-print(f"Accuracy: {accuracy:.0%}")
-```
+4. [Deterministic Tests and Application Contracts](04-deterministic-tests-and-application-contracts.md) — fake models, unit tests, contract tests, permission checks, and failure paths.
+5. [Evaluation Metrics for Generated Answers](05-evaluation-metrics-for-generation.md) — correctness, relevance, groundedness, classification metrics, text overlap, and pairwise comparisons.
+6. [LLM-as-a-Judge: Design and Calibration](06-llm-as-judge-design-and-calibration.md) — judge prompts, rubric design, bias, agreement, calibration, and limitations.
 
-**What it does:** Compares predicted labels with expected labels.
+### AI-specific evaluation — Retrieval, agents, safety
 
-**Use case:** Establish a baseline for support-ticket classification before replacing simple rules with a model.
+7. [RAG Evaluation: Retrieval and Groundedness](07-rag-retrieval-and-groundedness-evaluation.md) — recall@k, precision@k, MRR, citation validity, no-answer behaviour, and permission filtering.
+8. [Agent, Tool and Workflow Evaluation](08-agent-tool-and-workflow-evaluation.md) — task success, tool selection, argument validation, authorisation, step budgets, and side effects.
+9. [Safety, Red Teaming and Adversarial Evaluation](09-safety-red-teaming-and-adversarial-evaluation.md) — prompt injection, data leakage, misuse, unsafe tool actions, and hard safety gates.
 
-Accuracy alone may hide poor performance on rare categories. Inspect per-category precision, recall, and failure examples.
+### Measurement science — Trust the experiment
 
-## 6. Evaluate RAG in two stages
+10. [Statistics, Confidence and Experiment Design](10-statistics-confidence-and-experiment-design.md) — sample size, uncertainty, paired comparisons, confidence intervals, and segmentation.
+11. [Experiment Tracking and Reproducibility](11-experiment-tracking-and-reproducibility.md) — run manifests, model/prompt/dataset versions, baselines, and result comparison.
 
-**Retrieval evaluation:** Did search return the passages that contain the answer? Useful measures include recall@k, precision@k, and mean reciprocal rank.
+### Release and production operations
 
-**Answer evaluation:** Did the generated response accurately use retrieved content, cite sources, and admit when evidence is missing?
+12. [CI Quality Gates and Regression Testing](12-ci-quality-gates-and-regression-testing.md) — fast PR suites, pre-release evaluations, pass/fail gates, and regression review.
+13. [Tracing, Telemetry and Evaluation Observability](13-tracing-telemetry-and-evaluation-observability.md) — logs, metrics, traces, online quality signals, drift, alerts, and privacy controls.
 
-Keep these separate. Weak retrieval can cause a good model to produce a poor answer.
+### Capstone
 
-## 7. Evaluate agents
+14. [Evaluation Framework for a Developer Assistant](14-capstone-evaluation-framework-for-developer-assistant.md) — build a test dataset, deterministic checks, retrieval metrics, answer judging, agent evaluation, experiment tracking, and release gates.
 
-Record task success, correct tool selection, argument validity, authorisation outcome, step count, tool calls, human approval, failures, latency, and cost.
+## Important distinction: tests, evaluations and monitoring
 
-Add negative tests for unknown tools, excessive arguments, prompt injection, unauthorised documents, repeated failures, and maximum-step exhaustion.
+| Activity | Main question | Example |
+|---|---|---|
+| Unit/contract test | Does application code behave correctly? | Reject an unauthorised document request |
+| Offline evaluation | Is output quality acceptable on a controlled dataset? | Groundedness on 100 labelled questions |
+| Red-team test | Does the system resist deliberate misuse? | Prompt injection cannot reveal restricted data |
+| Regression test | Did a change make behaviour worse? | New prompt breaks citation quality |
+| Production monitoring | Is the live service healthy and useful? | Latency, errors, feedback, token cost |
 
-## 8. Tracing and observability
+These activities support one another but are not interchangeable. A model judge cannot replace a deterministic permission test. Production metrics cannot replace a curated evaluation dataset.
 
-A trace records one end-to-end operation. It can contain spans for model calls, retrieval, tools, and application steps. It helps answer: where did the time go, which tool ran, and where did the run fail?
+## Recommended capstone
 
-Useful telemetry:
-- Request ID and workflow name.
-- Model identifier and prompt version.
-- Retrieval duration and returned document IDs.
-- Tool name, validated outcome, and duration.
-- Token usage and estimated cost where available.
-- Error category and retry count.
+Build an evaluation framework for a Developer Support Assistant using synthetic runbooks and questions.
 
-Avoid storing raw prompts, customer documents, secrets, or sensitive tool results by default. Apply redaction and retention controls.
+The framework should:
+- Maintain versioned development, validation, and held-out datasets.
+- Record expected source IDs, required facts, and forbidden behaviour.
+- Run deterministic input, permission, schema, and tool-policy tests.
+- Evaluate retrieval separately from answer generation.
+- Use a human rubric for correctness, completeness, groundedness, and citations.
+- Optionally use an LLM judge calibrated against human review.
+- Evaluate agent tool choice and argument safety.
+- Record model, prompt, dataset, evaluator, and application versions.
+- Produce a report covering quality, safety, latency, and cost.
+- Apply hard release gates for data leakage and unauthorised actions.
 
-## 9. Trace-friendly logging example
+## Definition of done
 
-```python
-import logging
+- Test cases cover normal, ambiguous, no-answer, adversarial, and permission scenarios.
+- Human annotation instructions are documented.
+- Deterministic security tests run without a live model credential.
+- Retrieval and generation scores are reported separately.
+- Judge quality is compared with human labels.
+- Results can be reproduced from a run manifest.
+- CI has explicit quality and safety gates.
+- Production telemetry avoids unnecessary sensitive content.
+- Failures are reported with example IDs and root-cause categories—not only a single score.
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("assistant")
+## Skills checklist
 
-request_id = "demo-001"
-tool_name = "search_docs"
-duration_ms = 84
+- [ ] Turn product requirements into measurable evaluation criteria.
+- [ ] Design and version a representative evaluation dataset.
+- [ ] Write human annotation rubrics and review guidelines.
+- [ ] Create deterministic tests using fake model adapters.
+- [ ] Choose metrics that match the task.
+- [ ] Calibrate and challenge an LLM judge.
+- [ ] Measure retrieval quality and answer groundedness separately.
+- [ ] Evaluate agent tool calls, arguments, permissions, and termination.
+- [ ] Red-team prompt injection and data-access boundaries.
+- [ ] Interpret score uncertainty and paired experiments.
+- [ ] Track experiments so results are reproducible.
+- [ ] Add regression and safety gates to CI.
+- [ ] Monitor quality, latency, errors, and cost in production.
 
-logger.info(
-    "tool_completed request_id=%s tool=%s duration_ms=%d",
-    request_id, tool_name, duration_ms
-)
-```
+## Suggested pace
 
-This records useful metadata without printing the user's full prompt or a credential.
+A first pass may take 3–5 weeks with regular practice. The capstone is more important than completing the lessons quickly. Build the evaluation set early and keep extending it when new failure patterns are discovered.
 
-## 10. Practice project
+## Official references
 
-Create an evaluation pack for a Developer Support Assistant:
-1. Write at least 30 synthetic questions.
-2. Record expected source IDs and required facts.
-3. Include no-answer, ambiguous, injection, and permission cases.
-4. Add deterministic tests for permission and tool rules.
-5. Evaluate retrieval and answer quality separately.
-6. Record model, prompt, embedding, and dataset versions.
-7. Compare latency, error rate, and cost between controlled runs.
+- [OpenAI Evals](https://platform.openai.com/docs/guides/evals)
+- [OpenAI evaluation guide](https://platform.openai.com/docs/guides/evals)
+- [OpenTelemetry](https://opentelemetry.io/docs/)
+- [MLflow Tracking](https://mlflow.org/docs/latest/ml/tracking/)
+- [scikit-learn model evaluation](https://scikit-learn.org/stable/modules/model_evaluation.html)
+- [Hugging Face Evaluate](https://huggingface.co/docs/evaluate/)
+- [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/)
+- [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)
 
-## Self-check
-
-1. Why is one successful demo not enough?
-2. What is the difference between retrieval recall and answer groundedness?
-3. Why should tool permissions be tested separately from model text?
-4. What is a trace?
-5. Which data should not be written to logs?
-
-## References
-
-- OpenAI Evals: https://platform.openai.com/docs/guides/evals
-- OpenAI Agents SDK tracing: https://openai.github.io/openai-agents-python/tracing/
-- OpenTelemetry: https://opentelemetry.io/docs/
-- OWASP LLM Top 10: https://genai.owasp.org/llm-top-10/
+Evaluation methods, model APIs, and framework capabilities change. Verify current documentation and record exact versions for reproducible experiments.
