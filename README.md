@@ -19,7 +19,7 @@ Do not try to learn every tool at once. Follow the dependency order below. The P
 
 ### Phase 3 — Give models useful knowledge
 
-6. **Vector databases and semantic search** — [Study vector databases](study-materials/vector-databases/README.md). Understand embeddings, similarity, indexes, metadata filters, and persistence.
+6. **Vector databases and semantic search** — [Start the 14-lesson vector database course](study-materials/vector-databases/README.md). Learn embeddings, dimensions, distance metrics, Qdrant collections and points, upsert, vector search, metadata filters, ANN/HNSW, hybrid retrieval, pgvector, production operations, and a developer knowledge assistant capstone.
 7. **RAG engineering** — [Start the 14-lesson beginner-to-expert RAG course](study-materials/rag/README.md). Learn RAG architecture, document ingestion, chunking, embeddings, vector indexes, similarity and hybrid retrieval, reranking, grounded answers, citations, evaluation, security, incremental indexing, production operations, and a Developer Knowledge Assistant capstone.
 
 ### Phase 4 — Build controlled agents and integrations
@@ -68,7 +68,7 @@ This is a practical estimate, not a deadline. Plan for roughly 1–2 focused hou
 | Python for AI development | 14 days |
 | GenAI fundamentals | 4 days |
 | Prompt engineering | 3 days |
-| Vector databases and semantic search | 4 days |
+| Vector databases and semantic search | 6 days |
 | RAG | 5 days |
 | Agentic AI | 5 days |
 | MCP | 3 days |
@@ -123,7 +123,7 @@ Build a **Developer Knowledge Assistant** in small increments:
 | Python | [14-day Python course](study-materials/python/README.md) | Python fundamentals to agent prototype |
 | GenAI | [GenAI](study-materials/genai/README.md) | LLM concepts, inference, APIs |
 | Prompt engineering | [Prompts](study-materials/prompt-engineering/README.md) | Instructions, schemas, robustness |
-| Vector databases | [Vector DB](study-materials/vector-databases/README.md) | Embedding storage and search |
+| Vector databases | [14-lesson Vector DB course](study-materials/vector-databases/README.md) | Embeddings, Qdrant, search, filters, ANN, hybrid retrieval, pgvector, production operations |
 | RAG | [14-lesson RAG course](study-materials/rag/README.md) | Ingestion, chunking, embeddings, retrieval, grounding, evaluation, security, production |
 | Agentic AI | [Agents](study-materials/agentic-ai/README.md) | Tools, state, orchestration and safety |
 | MCP | [14-lesson MCP course](study-materials/mcp/README.md) | Protocol, server/client development, security, operations, .NET integration |
